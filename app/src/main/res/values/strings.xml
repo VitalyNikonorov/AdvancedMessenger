@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">AdvancedMessenger</string>
+    <string name="signin_login">LogIn:</string>
+    <string name="signin_pass">Password:</string>
+    <string name="signin_auth_action">SignIn</string>
+    <string name="signin_caption">Sign In in Advanced Messenger.</string>
 </resources>

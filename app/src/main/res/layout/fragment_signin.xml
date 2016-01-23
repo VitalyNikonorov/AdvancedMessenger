@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/signin_main_caption"
+        android:textSize="22sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/signin_caption"
+        android:textColor="@color/colorBlack"
+        />
+
+    <TextView
+        android:id="@+id/signin_log_caption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/signin_login"
+        android:textSize="14sp"
+        android:textColor="@color/colorBlack"
+        android:layout_below="@+id/signin_main_caption"
+        android:padding="8dp"
+        />
+
+    <EditText
+        android:id="@+id/signin_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:layout_below="@+id/signin_log_caption"
+        android:hint="login"
+        android:textAlignment="center"/>
+
+    <TextView
+        android:id="@+id/signin_pass_caption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/signin_pass"
+        android:textSize="14sp"
+        android:textColor="@color/colorBlack"
+        android:padding="8dp"
+        android:layout_below="@+id/signin_login"
+        />
+
+    <EditText
+        android:id="@+id/signin_pass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:layout_below="@+id/signin_pass_caption"
+        android:hint="password"
+        android:textAlignment="center"/>
+
+    <Button
+        android:id="@+id/signin_auth_action"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="@string/signin_auth_action"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        />
+
+
+</RelativeLayout>
