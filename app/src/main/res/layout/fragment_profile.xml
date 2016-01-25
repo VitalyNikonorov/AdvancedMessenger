@@ -1,6 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/profile_ava"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="32dp"
+        android:src="@drawable/chat_mock"/>
+
+    <TextView
+        android:id="@+id/profile_nick_label"
+        android:layout_alignBottom="@+id/profile_nick_et"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/profile_nick_et"
+        android:text="Nick: "/>
+
+    <EditText
+        android:id="@+id/profile_nick_et"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/profile_ava"
+        android:layout_width="128dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/profile_email_label"
+        android:layout_alignBottom="@+id/profile_email_et"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/profile_nick_et"
+        android:text="Email: "/>
+
+    <EditText
+        android:id="@+id/profile_email_et"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/profile_nick_et"
+        android:layout_width="128dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/profile_phone_label"
+        android:layout_alignBottom="@+id/profile_phone_et"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/profile_nick_et"
+        android:text="Phone: "/>
+
+    <EditText
+        android:id="@+id/profile_phone_et"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/profile_email_et"
+        android:layout_width="128dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/profile_status_label"
+        android:layout_alignBottom="@+id/profile_status_et"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/profile_nick_et"
+        android:text="Status: "/>
+
+    <EditText
+        android:id="@+id/profile_status_et"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/profile_phone_et"
+        android:layout_width="128dp"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/profile_save_btn"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/profile_status_et"
+        android:text="Save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>
