@@ -3,28 +3,41 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <View
+        android:id="@+id/signup_bar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"/>
 
     <TextView
-        android:id="@+id/sign_bar_button"
-        android:layout_width="80dp"
-        android:layout_height="56dp"
-        android:textSize="24sp"
-        android:gravity="center_vertical"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="16dp"
-        android:textColor="@color/colorAccent"
-        android:text="@string/signin_signup"/>
-
-    <TextView
-        android:id="@+id/signin_main_caption"
-        android:layout_below="@+id/sign_bar_button"
+        android:id="@+id/signup_main_caption"
+        android:layout_below="@+id/signup_bar"
         android:textSize="22sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/signin_caption"
+        android:text="@string/signup_caption"
         android:textColor="@color/colorBlack"
         android:layout_marginLeft="16dp"
         />
+
+    <TextView
+        android:id="@+id/signup_nick_caption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/signup_nick_caption"
+        android:textSize="14sp"
+        android:textColor="@color/colorGray"
+        android:layout_below="@+id/signup_main_caption"
+        android:padding="8dp"
+        />
+
+    <EditText
+        android:id="@+id/signup_nickname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:layout_below="@+id/signup_nick_caption"
+        android:hint="nickname"
+        android:textAlignment="center"/>
 
     <TextView
         android:id="@+id/signin_log_caption"
@@ -33,7 +46,7 @@
         android:text="@string/signin_login"
         android:textSize="14sp"
         android:textColor="@color/colorGray"
-        android:layout_below="@+id/signin_main_caption"
+        android:layout_below="@+id/signup_nickname"
         android:padding="8dp"
         />
 
@@ -71,7 +84,7 @@
         android:id="@+id/signin_auth_action"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:text="@string/signin_auth_action"
+        android:text="@string/signup_auth_action"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         />

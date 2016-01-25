@@ -1,8 +1,10 @@
-package net.nikonorov.advancedmessenger;
+package net.nikonorov.advancedmessenger.ui;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
+import net.nikonorov.advancedmessenger.R;
 
 /**
  * Created by vitaly on 24.01.16.
@@ -42,7 +44,7 @@ public class ActivitySplash extends Activity {
             }
 
             if(isActive){
-                startActivity(new Intent(ActivitySplash.this, ActivityMain.class));
+                startActivity(new Intent(ActivitySplash.this, ActivitySign.class));
                 ActivitySplash.this.finish();
             }
 

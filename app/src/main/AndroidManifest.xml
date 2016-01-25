@@ -8,7 +8,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".ActivitySplash"
+        <activity android:name=".ui.ActivitySplash"
             android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -16,8 +16,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ActivityMain"
-            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".ui.ActivitySign"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="adjustResize" />
 
     </application>
 

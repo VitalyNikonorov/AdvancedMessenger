@@ -3,5 +3,9 @@
     <string name="signin_login">LogIn:</string>
     <string name="signin_pass">Password:</string>
     <string name="signin_auth_action">SignIn</string>
+    <string name="signup_auth_action">SignUp</string>
     <string name="signin_caption">Sign In in Advanced Messenger.</string>
+    <string name="signup_caption">Sign Up in Advanced Messenger.</string>
+    <string name="signup_nick_caption">nickname</string>
+    <string name="signin_signup">SignUp</string>
 </resources>
