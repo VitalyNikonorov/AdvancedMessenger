@@ -18,10 +18,12 @@
 
         <activity android:name=".ui.ActivitySign"
             android:configChanges="orientation|screenSize"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"
+            android:noHistory="true"/>
 
         <activity android:name=".ui.ActivityMain"
-            android:configChanges="orientation|screenSize"/>
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="adjustResize"/>
 
     </application>
 
