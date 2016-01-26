@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import net.nikonorov.advancedmessenger.R;
+import net.nikonorov.advancedmessenger.logic.MasterService;
+import net.nikonorov.advancedmessenger.utils.TaskType;
 
 /**
  * Created by vitaly on 24.01.16.
@@ -24,6 +26,8 @@ public class ActivitySplash extends Activity {
     protected void onResume() {
         super.onResume();
         isActive = true;
+        String data = "";
+        startService(new Intent(this, MasterService.class).putExtra("type", TaskType.CONNECT).putExtra("data", data));
         new Thread(new Launcher()).start();
     }
 

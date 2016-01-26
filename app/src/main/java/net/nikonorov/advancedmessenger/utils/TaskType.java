@@ -14,5 +14,5 @@ public class TaskType {
     public static final int SETUSERINFO = 7;
     public static final int MESSAGE = 8;
     public static final int EV_MESSAGE = 9;
-
+    public static final int CONNECT = 10;
 }

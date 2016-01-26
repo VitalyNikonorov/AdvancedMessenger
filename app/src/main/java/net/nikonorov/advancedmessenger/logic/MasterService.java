@@ -9,6 +9,7 @@ import android.util.Log;
 import net.nikonorov.advancedmessenger.App;
 import net.nikonorov.advancedmessenger.MasterServiceListener;
 import net.nikonorov.advancedmessenger.ReaderListener;
+import net.nikonorov.advancedmessenger.utils.TaskType;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -38,14 +39,14 @@ public class MasterService extends Service implements ReaderListener {
     @Override
     public void onCreate() {
         super.onCreate();
-        new Connector().start();
         isWork = true;
         listener = ((App)getApplication()).getServiceHelper();
+        new Connector().start();
     }
 
     @Override
-    public void onReadEvent(int taskType, String response) {
-
+    public void onReadEvent(int taskType, String response, int code) {
+        listener.onRecieveMasterResponse(taskType, response, code);
     }
 
     private class Connector extends Thread{
@@ -74,9 +75,9 @@ public class MasterService extends Service implements ReaderListener {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d(LOG_TAG, "doSomeCommand");
-        new Connector().start();
-        sendMessage(intent);
+        if (intent.getIntExtra("type", -1) != TaskType.CONNECT){
+            sendMessage(intent);
+        }
 
         return START_REDELIVER_INTENT;
     }

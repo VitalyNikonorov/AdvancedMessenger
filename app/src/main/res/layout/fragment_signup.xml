@@ -51,7 +51,7 @@
         />
 
     <EditText
-        android:id="@+id/signin_login"
+        android:id="@+id/signup_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="25sp"
@@ -67,11 +67,11 @@
         android:textSize="14sp"
         android:textColor="@color/colorGray"
         android:padding="8dp"
-        android:layout_below="@+id/signin_login"
+        android:layout_below="@+id/signup_login"
         />
 
     <EditText
-        android:id="@+id/signin_pass"
+        android:id="@+id/signup_pass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="25sp"
@@ -81,7 +81,7 @@
         android:inputType="textPassword"/>
 
     <Button
-        android:id="@+id/signin_auth_action"
+        android:id="@+id/signup_reg_action"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:text="@string/signup_auth_action"
