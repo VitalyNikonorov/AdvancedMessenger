@@ -6,6 +6,10 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import net.nikonorov.advancedmessenger.App;
+import net.nikonorov.advancedmessenger.MasterServiceListener;
+import net.nikonorov.advancedmessenger.ReaderListener;
+
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,7 +19,7 @@ import java.net.Socket;
 /**
  * Created by vitaly on 26.01.16.
  */
-public class MasterService extends Service {
+public class MasterService extends Service implements ReaderListener {
 
     private final String LOG_TAG = "MasterService Log: ";
 
@@ -23,6 +27,8 @@ public class MasterService extends Service {
     private int PORT    = 7788;
 
     private boolean isWork = false;
+
+    private MasterServiceListener listener;
 
     private Socket socket;
 
@@ -34,6 +40,12 @@ public class MasterService extends Service {
         super.onCreate();
         new Connector().start();
         isWork = true;
+        listener = ((App)getApplication()).getServiceHelper();
+    }
+
+    @Override
+    public void onReadEvent(int taskType, String response) {
+
     }
 
     private class Connector extends Thread{
@@ -54,63 +66,9 @@ public class MasterService extends Service {
 
 
             if (socket != null) {
-                new Reader().start();
+                new Reader(is, isWork, MasterService.this).start();
             }
 
-        }
-    }
-
-    public class Reader extends Thread{
-
-        Reader(){}
-
-        @Override
-        public void run() {
-            int readBytes = 0;
-            byte[] buffer = new byte[1024];
-
-            String temp = null;
-            int bracketCount = 0;
-
-            StringBuilder sb = new StringBuilder();
-
-            while (isWork) {
-                try {
-                    readBytes = is.read(buffer);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                if (readBytes != -1) {
-
-                    byte[] readBuffer = new byte[readBytes];
-
-                    System.arraycopy(buffer, 0, readBuffer, 0, readBytes);
-
-                    temp = new String(readBuffer);
-
-                    for( int i = 0; i < temp.length(); i++ ) {
-                        if( temp.charAt(i) == '{' ) {
-                            bracketCount++;
-                        }else if( temp.charAt(i) == '}' ) {
-                            bracketCount--;
-                        }
-                    }
-
-                    if( bracketCount < 1 ){
-                        sb.append(temp);
-                        Log.i(LOG_TAG, "I RECEIVE IT: " + sb.toString());
-                        //Intent intent = new Intent(ActivityBase.BROADCAST_EVENT);
-                        //intent.putExtra("data", sb.toString());
-                        //sendBroadcast(intent);
-
-                        sb.setLength(0);
-                        bracketCount = 0;
-                    }else{
-                        sb.append(temp);
-                    }
-                }
-            }
         }
     }
 
@@ -120,7 +78,7 @@ public class MasterService extends Service {
         new Connector().start();
         sendMessage(intent);
 
-        return super.onStartCommand(intent, flags, startId);
+        return START_REDELIVER_INTENT;
     }
 
     private void sendMessage(Intent intent){
