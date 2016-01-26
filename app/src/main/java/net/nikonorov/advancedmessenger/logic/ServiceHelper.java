@@ -8,8 +8,10 @@ import android.util.SparseArray;
 
 import net.nikonorov.advancedmessenger.MasterServiceListener;
 import net.nikonorov.advancedmessenger.ServiceHelperListener;
+import net.nikonorov.advancedmessenger.utils.Code;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -46,5 +48,14 @@ public class ServiceHelper implements MasterServiceListener {
     @Override
     public void onRecieveMasterResponse(int taskType, String response, int code) {
         Log.i(LOG_TAG, "Receive it: task" + (new Integer(taskType).toString()) + " error code: " + (new Integer(code).toString()) +" response: " +response);
+
+        Iterator it = listeners.iterator();
+
+        while (it.hasNext()) {
+
+            ServiceHelperListener item = (ServiceHelperListener) it.next();
+            item.onServiceHelperCallback(taskType, response, code);
+        }
+
     }
 }

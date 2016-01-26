@@ -8,6 +8,7 @@ import net.nikonorov.advancedmessenger.App;
 import net.nikonorov.advancedmessenger.ServiceHelperListener;
 import net.nikonorov.advancedmessenger.logic.ServiceHelper;
 import net.nikonorov.advancedmessenger.utils.Code;
+import net.nikonorov.advancedmessenger.utils.TaskType;
 
 /**
  * Created by vitaly on 26.01.16.
@@ -35,17 +36,17 @@ public abstract class CallableFragment extends Fragment implements ServiceHelper
     }
 
     @Override
-    public void onServiceHelperCallback(int action, int code, String data) {
+    public void onServiceHelperCallback(int taskType, String data, int code) {
         switch (code){
             case Code.OK:
-                correctCodeHandle(action, data);
+                correctCodeHandle(taskType, data);
                 break;
             case Code.TIMEOUT:
                 timeoutCodeHandle();
         }
     }
 
-    public abstract void correctCodeHandle(int action, String data);
+    public abstract void correctCodeHandle(int taskType, String data);
 
     private void timeoutCodeHandle(){
         Toast.makeText(getActivity(), "Connection time out. Check network.", Toast.LENGTH_SHORT).show();

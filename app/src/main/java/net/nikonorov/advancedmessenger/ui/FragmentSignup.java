@@ -1,5 +1,6 @@
 package net.nikonorov.advancedmessenger.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -8,11 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import net.nikonorov.advancedmessenger.R;
 import net.nikonorov.advancedmessenger.User;
 import net.nikonorov.advancedmessenger.utils.TaskType;
 import net.nikonorov.advancedmessenger.utils.Utils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by vitaly on 25.01.16.
@@ -56,7 +61,38 @@ public class FragmentSignup extends CallableFragment {
     }
 
     @Override
-    public void correctCodeHandle(int action, String data) {
-        //TODO
+    public void correctCodeHandle(int taskType, String data) {
+
+        if (taskType == TaskType.REGISTRATE){
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getActivity(), "Registrated", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        if (taskType == TaskType.AUTH){
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getActivity(), "Welcome "+User.getLogin(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            try {
+                JSONObject jsonObject = new JSONObject(data);
+                User.setSid(jsonObject.getJSONObject("data").getString("sid"));
+                User.setUid(jsonObject.getJSONObject("data").getString("uid"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+            Intent intent = new Intent(getActivity(), ActivityMain.class);
+            startActivity(intent);
+        }
+
     }
 }
