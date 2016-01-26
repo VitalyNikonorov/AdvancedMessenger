@@ -73,7 +73,13 @@ public class FragmentSignin extends CallableFragment {
     @Override
     public void correctCodeHandle(int taskType, String data) {
         if (taskType == TaskType.AUTH){
-            Toast.makeText(getActivity(), "Welcome " + User.getLogin(), Toast.LENGTH_SHORT).show();
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getActivity(), "Welcome "+User.getLogin(), Toast.LENGTH_SHORT).show();
+                }
+            });
 
             try {
                 JSONObject jsonObject = new JSONObject(data);
