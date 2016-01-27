@@ -1,9 +1,10 @@
 package net.nikonorov.advancedmessenger.ui;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +19,6 @@ import net.nikonorov.advancedmessenger.utils.Utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by vitaly on 25.01.16.
@@ -71,6 +69,27 @@ public class FragmentSignin extends CallableFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        String sid = sharedPref.getString("sid", null);
+        String cid = sharedPref.getString("cid", null);
+        String login = sharedPref.getString("login", null);
+
+        if (sid != null && cid != null && login != null){
+            User.setSid(sid);
+            User.setCid(cid);
+            User.setLogin(login);
+
+            Toast.makeText(getActivity(), "Hello "+login, Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(getActivity(), ActivityMain.class);
+            startActivity(intent);
+        }
+    }
+
+    @Override
     public void correctCodeHandle(int taskType, String data) {
         if (taskType == TaskType.AUTH){
 
@@ -84,11 +103,21 @@ public class FragmentSignin extends CallableFragment {
             try {
                 JSONObject jsonObject = new JSONObject(data);
                 User.setSid(jsonObject.getJSONObject("data").getString("sid"));
-                User.setUid(jsonObject.getJSONObject("data").getString("uid"));
+                User.setCid(jsonObject.getJSONObject("data").getString("cid"));
+
+                SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+
+                editor.putString("sid", User.getSid());
+                editor.putString("uid", User.getCid());
+
+                editor.putString("login", User.getLogin());
+
+                editor.commit();
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
 
             Intent intent = new Intent(getActivity(), ActivityMain.class);
             startActivity(intent);

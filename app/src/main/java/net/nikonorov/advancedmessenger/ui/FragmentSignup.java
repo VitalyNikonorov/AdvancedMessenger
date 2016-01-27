@@ -1,6 +1,8 @@
 package net.nikonorov.advancedmessenger.ui;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -84,7 +86,17 @@ public class FragmentSignup extends CallableFragment {
             try {
                 JSONObject jsonObject = new JSONObject(data);
                 User.setSid(jsonObject.getJSONObject("data").getString("sid"));
-                User.setUid(jsonObject.getJSONObject("data").getString("uid"));
+                User.setCid(jsonObject.getJSONObject("data").getString("cid"));
+
+                SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+
+                editor.putString("sid", User.getSid());
+                editor.putString("cid", User.getCid());
+
+                editor.putString("login", User.getLogin());
+
+                editor.commit();
             } catch (JSONException e) {
                 e.printStackTrace();
             }

@@ -8,7 +8,7 @@ public class User {
     private static String pass;
 
     private static String sid;
-    private static String uid;
+    private static String cid;
 
     public static void setLogin(String login) {
         User.login = login;
@@ -34,11 +34,11 @@ public class User {
         return sid;
     }
 
-    public static void setUid(String uid) {
-        User.uid = uid;
+    public static void setCid(String cid) {
+        User.cid = cid;
     }
 
-    public static String getUid() {
-        return uid;
+    public static String getCid() {
+        return cid;
     }
 }
