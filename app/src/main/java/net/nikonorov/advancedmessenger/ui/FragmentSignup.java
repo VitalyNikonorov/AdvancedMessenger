@@ -95,6 +95,7 @@ public class FragmentSignup extends CallableFragment {
                 editor.putString("cid", User.getCid());
 
                 editor.putString("login", User.getLogin());
+                editor.putString("pass", User.getPass());
 
                 editor.commit();
             } catch (JSONException e) {

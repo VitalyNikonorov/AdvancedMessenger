@@ -43,7 +43,7 @@ public class ActivityMain extends AppCompatActivity {
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                Log.i("TAG", "Scrolled");
+                //Log.i("TAG", "Scrolled");
             }
 
             @Override

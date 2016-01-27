@@ -57,7 +57,7 @@ public class FragmentChatList extends CallableFragment implements LoaderManager.
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        adapter = new ContactListAdapter(new ArrayList<JSONObject>(data));
+        adapter = new ContactListAdapter(data);
         recyclerView.setAdapter(adapter);
 
         getLoaderManager().initLoader(URL_LOADER, null, this);
@@ -68,6 +68,7 @@ public class FragmentChatList extends CallableFragment implements LoaderManager.
     @Override
     public void onResume() {
         super.onResume();
+
         //cursor = getActivity().getContentResolver().query(Uri.parse("content://net.nikonorov.advancedmessenger.providers.db/contacts"), null, "user = \'"+ User.getLogin()+"\'",
         //        null, null);
 
@@ -141,7 +142,7 @@ public class FragmentChatList extends CallableFragment implements LoaderManager.
                         getActivity(),   // Parent activity context
                         Uri.parse("content://net.nikonorov.advancedmessenger.providers.db/contacts"),        // Table to query
                         null,     // Projection to return
-                        "user = \'"+ User.getLogin()+"\'",            // No selection clause
+                        "user = \'"+ User.getLogin()+"\'",            // selection clause
                         null,            // No selection arguments
                         null             // Default sort order
                 );
@@ -168,18 +169,21 @@ public class FragmentChatList extends CallableFragment implements LoaderManager.
                 }
             }
 
-            //cursor.close();
-
             try {
                 JSONArray list = (new JSONObject(dataList)).getJSONArray("list");
 
                 data.clear();
 
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+
                 for(int i = 0; i < list.length(); i++){
                     data.add(list.getJSONObject(i));
                 }
-
-                adapter = new ContactListAdapter(new ArrayList<JSONObject>(data));
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

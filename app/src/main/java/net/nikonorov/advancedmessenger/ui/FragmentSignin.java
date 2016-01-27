@@ -61,7 +61,7 @@ public class FragmentSignin extends CallableFragment {
 
                 String reqObject = sb.toString();
 
-                serviceHelper.executeCommand(TaskType.REGISTRATE, reqObject, getActivity());
+                serviceHelper.executeCommand(TaskType.AUTH, reqObject, getActivity());
             }
         });
 
@@ -76,16 +76,22 @@ public class FragmentSignin extends CallableFragment {
         String sid = sharedPref.getString("sid", null);
         String cid = sharedPref.getString("cid", null);
         String login = sharedPref.getString("login", null);
+        String pass = sharedPref.getString("pass", null);
 
         if (sid != null && cid != null && login != null){
             User.setSid(sid);
             User.setCid(cid);
             User.setLogin(login);
 
-            Toast.makeText(getActivity(), "Hello "+login, Toast.LENGTH_SHORT).show();
+            StringBuilder sb = new StringBuilder();
 
-            Intent intent = new Intent(getActivity(), ActivityMain.class);
-            startActivity(intent);
+            sb.append("{\"action\":\"auth\", \"data\":{\"login\":\"");
+            sb.append(login).append("\", ");
+            sb.append("\"pass\": \"").append(pass).append("\"}} ");
+
+            String reqObject = sb.toString();
+
+            serviceHelper.executeCommand(TaskType.AUTH, reqObject, getActivity());
         }
     }
 
@@ -109,9 +115,10 @@ public class FragmentSignin extends CallableFragment {
                 SharedPreferences.Editor editor = sharedPref.edit();
 
                 editor.putString("sid", User.getSid());
-                editor.putString("uid", User.getCid());
+                editor.putString("cid", User.getCid());
 
                 editor.putString("login", User.getLogin());
+                editor.putString("pass", User.getPass());
 
                 editor.commit();
 
