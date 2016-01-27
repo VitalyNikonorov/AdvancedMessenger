@@ -33,6 +33,10 @@
             android:windowSoftInputMode="adjustResize"/>
 
         <service android:name=".logic.MasterService" />
+        
+        <provider
+            android:authorities="net.nikonorov.advancedmessenger.providers.db"
+            android:name=".logic.Provider"/>
 
     </application>
 

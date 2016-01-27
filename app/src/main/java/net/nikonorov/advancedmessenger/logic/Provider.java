@@ -1,15 +1,26 @@
 package net.nikonorov.advancedmessenger.logic;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 /**
  * Created by vitaly on 27.01.16.
  */
 public class Provider extends ContentProvider {
+
+    final String LOG_TAG = "Provider ";
+
+    SQLiteOpenHelper dbHelper;
+    SQLiteDatabase db;
+
+    static final String AUTHORITY = "net.nikonorov.advancedmessenger.providers.db";
 
     final static String DB_NAME = "advmessenger";
     final static int DB_VERSION = 1;
@@ -97,13 +108,44 @@ public class Provider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        return false;
+        dbHelper = new SQLiteOpenHelper(getContext(), DB_NAME, null, DB_VERSION) {
+            @Override
+            public void onCreate(SQLiteDatabase db) {
+                db.execSQL(DB_CREATE_USERS);
+                Log.i(LOG_TAG, "users table created");
+                db.execSQL(DB_CREATE_CONTACTS);
+                Log.i(LOG_TAG, "planned list table created");
+                db.execSQL(DB_CREATE_DIALOGS);
+                Log.i(LOG_TAG, "read list table created");
+                db.execSQL(DB_CREATE_IMPORT);
+                Log.i(LOG_TAG, "books table created");
+            }
+
+            @Override
+            public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+                onCreate(db);
+            }
+        };
+        return true;
     }
 
     @Nullable
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-        return null;
+        Log.i(LOG_TAG, "!query data " + uri.toString());
+
+        db = dbHelper.getWritableDatabase();
+        String table = uri.getLastPathSegment();
+
+        Cursor cursor = db.query(table, projection, selection,
+                selectionArgs, null, null, sortOrder);
+
+        Uri CONTENT_URI = Uri.parse("content://"
+                + AUTHORITY + "/" + table);
+
+        cursor.setNotificationUri(getContext().getContentResolver(),
+                CONTENT_URI);
+        return cursor;
     }
 
     @Nullable
@@ -115,7 +157,20 @@ public class Provider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        return null;
+        Log.d(LOG_TAG, "insert, " + uri.toString());
+
+        db = dbHelper.getWritableDatabase();
+
+        String table = uri.getLastPathSegment();
+
+        long rowID = db.insert(table, null, values);
+
+        Uri CONTENT_URI = Uri.parse("content://"
+                + AUTHORITY + "/" + table);
+
+        Uri resultUri = ContentUris.withAppendedId(CONTENT_URI, rowID);
+
+        return resultUri;
     }
 
     @Override
