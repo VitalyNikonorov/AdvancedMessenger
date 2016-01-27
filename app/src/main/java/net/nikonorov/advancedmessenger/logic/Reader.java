@@ -1,8 +1,12 @@
 package net.nikonorov.advancedmessenger.logic;
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 
 import net.nikonorov.advancedmessenger.ReaderListener;
+import net.nikonorov.advancedmessenger.User;
 import net.nikonorov.advancedmessenger.utils.TaskType;
 
 import org.json.JSONException;
@@ -10,11 +14,16 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Set;
 
 /**
  * Created by vitaly on 26.01.16.
  */
 public class Reader extends Thread{
+
+    final static String CONTACTS_TABLE = "contacts";
+    final static String USER_TABLE = "users";
 
     private boolean isWork;
     private InputStream is;
@@ -31,6 +40,7 @@ public class Reader extends Thread{
 
     @Override
     public void run() {
+
         int readBytes = 0;
         byte[] buffer = new byte[1024];
 
@@ -95,10 +105,24 @@ public class Reader extends Thread{
 
                 case "userinfo":
                     taskType = TaskType.USERINFO;
+
+                    HashMap<String, String> dataSetUser = new HashMap<>();
+                    dataSetUser.put("login", User.getLogin());
+                    dataSetUser.put("data", jsonObject.getJSONObject("data").toString());
+                    dataSetUser.put("time", new Long(System.currentTimeMillis()).toString());
+
+                    saveData(dataSetUser, USER_TABLE);
                     break;
 
                 case "contactlist":
                     taskType = TaskType.CONTACTLIST;
+
+                    HashMap<String, String> dataSetContacts = new HashMap<>();
+                    dataSetContacts.put("user", User.getLogin());
+                    dataSetContacts.put("data", jsonObject.getJSONObject("data").toString());
+                    dataSetContacts.put("time", new Long(System.currentTimeMillis()).toString());
+
+                    saveData(dataSetContacts, CONTACTS_TABLE);
                     break;
 
                 case "addcontact":
@@ -139,4 +163,18 @@ public class Reader extends Thread{
         readerListener.onReadEvent(taskType, data, code);  //TODO
     }
 
+    private void saveData(HashMap<String, String> data, String table) {
+        ContentValues cv = new ContentValues();
+        Set<String> set = data.keySet();
+
+        for (String key : set){
+            cv.put(key, data.get(key));
+        }
+
+        final Uri URI = Uri
+                .parse("content://net.nikonorov.advancedmessenger.providers.db/"+table);
+        Uri newUri = ((Context)readerListener).getContentResolver().insert(URI, cv);
+
+        Log.i(LOG_TAG, "insert, result Uri : " + newUri.toString());
+    }
 }
