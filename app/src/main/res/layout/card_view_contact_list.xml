@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/contact_list_cv"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/contact_list_cv_ava"
+            android:layout_height="64dp"
+            android:layout_width="64dp"
+            android:layout_weight="1"
+            android:src="@drawable/chat_mock"
+            android:layout_margin="8dp"
+            />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_weight="9"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/contact_list_cv_nick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="nick"
+                />
+
+            <TextView
+                android:id="@+id/contact_list_cv_email"
+                android:layout_below="@+id/contact_list_cv_nick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="email"
+                />
+
+            <TextView
+                android:id="@+id/contact_list_cv_phone"
+                android:layout_below="@+id/contact_list_cv_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="phone"
+                />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+
+</android.support.v7.widget.CardView>

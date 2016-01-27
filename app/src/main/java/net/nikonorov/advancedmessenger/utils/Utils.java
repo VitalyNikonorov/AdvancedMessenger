@@ -1,5 +1,10 @@
 package net.nikonorov.advancedmessenger.utils;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+import android.widget.ImageView;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -32,5 +37,12 @@ public class Utils {
         }
 
         return hexString.toString();
+    }
+
+    public static void setPhoto(String encodedPhoto, ImageView imageView) {
+        byte[] decodedPhoto = Base64.decode(encodedPhoto, Base64.NO_WRAP);
+
+        Bitmap procPhoto = BitmapFactory.decodeByteArray(decodedPhoto, 0, decodedPhoto.length);
+        imageView.setImageBitmap(procPhoto);
     }
 }
