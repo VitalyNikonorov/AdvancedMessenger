@@ -24,6 +24,8 @@ public class Reader extends Thread{
 
     final static String CONTACTS_TABLE = "contacts";
     final static String USER_TABLE = "users";
+    final static String IMPORT_TABLE = "import";
+    final static String DIALOGS_TABLE = "dialogs";
 
     private boolean isWork;
     private InputStream is;
@@ -109,7 +111,7 @@ public class Reader extends Thread{
                     HashMap<String, String> dataSetUser = new HashMap<>();
                     dataSetUser.put("login", User.getLogin());
                     dataSetUser.put("data", jsonObject.getJSONObject("data").toString());
-                    dataSetUser.put("time", new Long(System.currentTimeMillis()).toString());
+                    dataSetUser.put("time", Long.valueOf(System.currentTimeMillis()).toString());
 
                     saveData(dataSetUser, USER_TABLE);
                     break;
@@ -120,7 +122,7 @@ public class Reader extends Thread{
                     HashMap<String, String> dataSetContacts = new HashMap<>();
                     dataSetContacts.put("user", User.getLogin());
                     dataSetContacts.put("data", jsonObject.getJSONObject("data").toString());
-                    dataSetContacts.put("time", new Long(System.currentTimeMillis()).toString());
+                    dataSetContacts.put("time", Long.valueOf(System.currentTimeMillis()).toString());
 
                     saveData(dataSetContacts, CONTACTS_TABLE);
                     break;
@@ -135,6 +137,14 @@ public class Reader extends Thread{
 
                 case "import":
                     taskType = TaskType.IMPORT;
+
+                    HashMap<String, String> dataSetImport = new HashMap<>();
+                    dataSetImport.put("user", User.getLogin());
+                    dataSetImport.put("data", jsonObject.getJSONObject("data").toString());
+                    dataSetImport.put("time", Long.valueOf(System.currentTimeMillis()).toString());
+
+                    saveData(dataSetImport, IMPORT_TABLE);
+
                     break;
 
                 case "setuserinfo":
@@ -147,6 +157,15 @@ public class Reader extends Thread{
 
                 case "ev_message":
                     taskType = TaskType.EV_MESSAGE;
+
+                    HashMap<String, String> dataSetDialogs = new HashMap<>();
+                    dataSetDialogs.put("to_user", User.getLogin());
+                    dataSetDialogs.put("from_user", jsonObject.getJSONObject("data").getString("from"));
+                    dataSetDialogs.put("data", jsonObject.getJSONObject("data").toString());
+                    dataSetDialogs.put("time", Long.valueOf(System.currentTimeMillis()).toString());
+
+                    saveData(dataSetDialogs, DIALOGS_TABLE);
+
                     break;
             }
 
@@ -158,7 +177,6 @@ public class Reader extends Thread{
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
 
         readerListener.onReadEvent(taskType, data, code);  //TODO
     }

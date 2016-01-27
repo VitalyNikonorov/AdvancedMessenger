@@ -41,7 +41,7 @@ public class Provider extends ContentProvider {
             .append(USER_ID)
             .append(" text UNIQUE ON CONFLICT REPLACE,")
             .append(USER_TIME)
-            .append(" integer, ")
+            .append(" text, ")
             .append(USER_DATA)
             .append(" text);").toString();
 
@@ -65,7 +65,7 @@ public class Provider extends ContentProvider {
             .append(DIALOGS_DATA)
             .append(" text, ")
             .append(DIALOGS_TIME)
-            .append(" integer);").toString();
+            .append(" text);").toString();
 
 
     final static String IMPORT_TABLE = "import";
@@ -85,7 +85,7 @@ public class Provider extends ContentProvider {
             .append(IMPORT_DATA)
             .append(" text, ")
             .append(IMPORT_TIME)
-            .append(" integer);").toString();
+            .append(" text);").toString();
 
     final static String CONTACTS_TABLE = "contacts";
     final static String CONTACTS_USER = "user";
@@ -104,7 +104,7 @@ public class Provider extends ContentProvider {
             .append(CONTACTS_DATA)
             .append(" text, ")
             .append(CONTACTS_TIME)
-            .append(" integer);").toString();
+            .append(" text);").toString();
 
     @Override
     public boolean onCreate() {
