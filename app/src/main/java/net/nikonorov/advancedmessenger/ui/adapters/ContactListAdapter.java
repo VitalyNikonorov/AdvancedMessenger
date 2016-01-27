@@ -24,6 +24,10 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
 
     ArrayList<JSONObject> data = null;
 
+    public ContactListAdapter(ArrayList<JSONObject> data){
+        this.data = data;
+    }
+
     @Override
     public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_contact_list, parent, false);
