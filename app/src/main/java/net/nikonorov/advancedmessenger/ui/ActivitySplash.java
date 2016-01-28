@@ -109,7 +109,6 @@ public class ActivitySplash extends Activity implements ServiceHelperListener {
 
             if(isActive){
 
-                //SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
                 SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 String sid = sharedPref.getString("sid", null);
                 String cid = sharedPref.getString("cid", null);

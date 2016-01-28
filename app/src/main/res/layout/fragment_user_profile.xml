@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical" android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <net.nikonorov.advancedmessenger.utils.AmazingPicture
+                android:id="@+id/profile_ava"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/chat_mock"/>
+
+            <TextView
+                android:id="@+id/profile_nick_label"
+                android:layout_alignBottom="@+id/profile_nick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/profile_nick"
+                android:text="Nick: "/>
+
+            <TextView
+                android:id="@+id/profile_nick"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/profile_ava"
+                android:layout_width="128dp"
+                android:layout_marginTop="32dp"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="nick"/>
+
+            <TextView
+                android:id="@+id/profile_email_label"
+                android:layout_alignBottom="@+id/profile_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/profile_nick"
+                android:text="Email: "/>
+
+            <TextView
+                android:id="@+id/profile_email"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/profile_nick"
+                android:layout_width="128dp"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:layout_marginTop="8dp"
+                android:text="mail"/>
+
+            <TextView
+                android:id="@+id/profile_phone_label"
+                android:layout_alignBottom="@+id/profile_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/profile_nick"
+                android:text="Phone: "/>
+
+            <TextView
+                android:id="@+id/profile_phone"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/profile_email"
+                android:layout_width="128dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textSize="20sp"
+                android:text="phone"/>
+
+            <TextView
+                android:id="@+id/profile_status_label"
+                android:layout_alignBottom="@+id/profile_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/profile_nick"
+                android:text="Status: "/>
+
+            <TextView
+                android:id="@+id/profile_status"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/profile_phone"
+                android:layout_width="128dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textSize="20sp"
+                android:text="status"/>
+
+            <Button
+                android:id="@+id/profile_save_btn"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/profile_status"
+                android:text="Save"
+                android:layout_marginTop="32dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

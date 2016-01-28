@@ -44,8 +44,6 @@ public class FragmentChatList extends CallableFragment implements LoaderManager.
 
     private final String LOG_TAG = "ChatList Fragment";
 
-    //private Cursor cursor = null;
-
     public FragmentChatList(){}
 
     @Nullable

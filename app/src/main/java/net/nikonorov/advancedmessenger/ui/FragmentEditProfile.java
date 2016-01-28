@@ -10,16 +10,16 @@ import android.view.ViewGroup;
 import net.nikonorov.advancedmessenger.R;
 
 /**
- * Created by vitaly on 28.01.16.
+ * Created by vitaly on 25.01.16.
  */
-public class FragmentProfile extends Fragment {
+public class FragmentEditProfile extends Fragment {
 
-    public FragmentProfile(){}
+    public FragmentEditProfile(){}
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_user_profile, null);
+        View view = inflater.inflate(R.layout.fragment_edit_profile, null);
 
         return view;
     }
