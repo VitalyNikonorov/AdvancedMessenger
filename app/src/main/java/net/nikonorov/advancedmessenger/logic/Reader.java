@@ -7,6 +7,7 @@ import android.util.Log;
 
 import net.nikonorov.advancedmessenger.ReaderListener;
 import net.nikonorov.advancedmessenger.User;
+import net.nikonorov.advancedmessenger.utils.BufferClass;
 import net.nikonorov.advancedmessenger.utils.TaskType;
 
 import org.json.JSONException;
@@ -109,7 +110,7 @@ public class Reader extends Thread{
                     taskType = TaskType.USERINFO;
 
                     HashMap<String, String> dataSetUser = new HashMap<>();
-                    dataSetUser.put("login", User.getLogin());
+                    dataSetUser.put("login", BufferClass.getAskedUser());
                     dataSetUser.put("data", jsonObject.getJSONObject("data").toString());
                     dataSetUser.put("time", Long.valueOf(System.currentTimeMillis()).toString());
 

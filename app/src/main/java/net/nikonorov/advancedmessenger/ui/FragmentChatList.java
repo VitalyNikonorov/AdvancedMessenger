@@ -36,8 +36,6 @@ public class FragmentChatList extends CallableFragment implements LoaderManager.
     private ArrayList<JSONObject> data = new ArrayList<>();
     private RecyclerView recyclerView  = null;
 
-    SimpleCursorAdapter cursorAdapter;
-
     private static final int URL_LOADER = 0;
 
     private final int ONE_MINUTE_MILLIS = 6000;
