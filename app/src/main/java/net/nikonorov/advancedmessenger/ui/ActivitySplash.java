@@ -90,6 +90,7 @@ public class ActivitySplash extends Activity implements ServiceHelperListener {
 
                 Intent intent = new Intent(this, ActivityMain.class);
                 startActivity(intent);
+                ActivitySplash.this.finish();
             }
         }
 
