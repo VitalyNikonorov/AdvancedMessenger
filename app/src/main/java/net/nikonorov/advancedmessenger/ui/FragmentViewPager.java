@@ -57,7 +57,9 @@ public class FragmentViewPager extends CallableFragment {
             public void onPageScrollStateChanged(int state) {
                 View view = getActivity().getCurrentFocus();
                 InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                if(view != null) {
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
             }
         });
 

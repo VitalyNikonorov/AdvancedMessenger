@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import net.nikonorov.advancedmessenger.R;
@@ -41,6 +42,7 @@ public class FragmentMyProfile extends CallableFragment implements LoaderManager
     private TextView       emailTV  = null;
     private TextView       phoneTV  = null;
     private TextView       statutTV = null;
+    private Button         editBtn  = null;
 
     @Nullable
     @Override
@@ -52,6 +54,14 @@ public class FragmentMyProfile extends CallableFragment implements LoaderManager
         emailTV = (TextView) view.findViewById(R.id.my_profile_email);
         phoneTV = (TextView) view.findViewById(R.id.my_profile_phone);
         statutTV = (TextView) view.findViewById(R.id.my_profile_status);
+        editBtn = (Button) view.findViewById(R.id.my_profile_edit_btn);
+
+        editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((ActivityMain)getActivity()).changeFragment(FragmentSet.MAINEDITPROFILE);
+            }
+        });
 
         getLoaderManager().initLoader(URL_LOADER, null, this);
 

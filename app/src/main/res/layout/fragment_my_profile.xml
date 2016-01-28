@@ -90,10 +90,10 @@
                 android:text="status"/>
 
             <Button
-                android:id="@+id/my_profile_save_btn"
+                android:id="@+id/my_profile_edit_btn"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@id/my_profile_status"
-                android:text="Save"
+                android:text="Edit"
                 android:layout_marginTop="32dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
