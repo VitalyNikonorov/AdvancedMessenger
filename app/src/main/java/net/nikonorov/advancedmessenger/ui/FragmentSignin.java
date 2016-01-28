@@ -1,9 +1,9 @@
 package net.nikonorov.advancedmessenger.ui;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,27 +72,28 @@ public class FragmentSignin extends CallableFragment {
     public void onResume() {
         super.onResume();
 
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        String sid = sharedPref.getString("sid", null);
-        String cid = sharedPref.getString("cid", null);
-        String login = sharedPref.getString("login", null);
-        String pass = sharedPref.getString("pass", null);
-
-        if (sid != null && cid != null && login != null){
-            User.setSid(sid);
-            User.setCid(cid);
-            User.setLogin(login);
-
-            StringBuilder sb = new StringBuilder();
-
-            sb.append("{\"action\":\"auth\", \"data\":{\"login\":\"");
-            sb.append(login).append("\", ");
-            sb.append("\"pass\": \"").append(pass).append("\"}} ");
-
-            String reqObject = sb.toString();
-
-            serviceHelper.executeCommand(TaskType.AUTH, reqObject, getActivity());
-        }
+//        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+//        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+//        String sid = sharedPref.getString("sid", null);
+//        String cid = sharedPref.getString("cid", null);
+//        String login = sharedPref.getString("login", null);
+//        String pass = sharedPref.getString("pass", null);
+//
+//        if (sid != null && cid != null && login != null){
+//            User.setSid(sid);
+//            User.setCid(cid);
+//            User.setLogin(login);
+//
+//            StringBuilder sb = new StringBuilder();
+//
+//            sb.append("{\"action\":\"auth\", \"data\":{\"login\":\"");
+//            sb.append(login).append("\", ");
+//            sb.append("\"pass\": \"").append(pass).append("\"}} ");
+//
+//            String reqObject = sb.toString();
+//
+//            serviceHelper.executeCommand(TaskType.AUTH, reqObject, getActivity());
+//        }
     }
 
     @Override
@@ -111,7 +112,7 @@ public class FragmentSignin extends CallableFragment {
                 User.setSid(jsonObject.getJSONObject("data").getString("sid"));
                 User.setCid(jsonObject.getJSONObject("data").getString("cid"));
 
-                SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
                 SharedPreferences.Editor editor = sharedPref.edit();
 
                 editor.putString("sid", User.getSid());
