@@ -36,7 +36,7 @@ public class FragmentViewPager extends CallableFragment {
 
         fragments[FragmentSet.CHATLIST] = new FragmentChatList();
         fragments[FragmentSet.CONTACTS] = new FragmentContacts();
-        fragments[FragmentSet.PROFILE] = new FragmentProfile();
+        fragments[FragmentSet.MYPROFILE] = new FragmentMyProfile();
 
         viewPager = (ViewPager) view.findViewById(R.id.pager);
         pagerAdapter = new MyFragmentPagerAdapter(getFragmentManager());
@@ -63,7 +63,7 @@ public class FragmentViewPager extends CallableFragment {
 
         titles[FragmentSet.CHATLIST] = getString(R.string.main_chats);
         titles[FragmentSet.CONTACTS] = getString(R.string.main_contacts);
-        titles[FragmentSet.PROFILE] = getString(R.string.main_profile);
+        titles[FragmentSet.MYPROFILE] = getString(R.string.main_profile);
 
         return view;
     }

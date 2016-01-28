@@ -53,7 +53,7 @@ public class FragmentChatList extends CallableFragment implements LoaderManager.
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        adapter = new ContactListAdapter(data);
+        adapter = new ContactListAdapter(data, (ActivityMain)getActivity());
         recyclerView.setAdapter(adapter);
 
         getLoaderManager().initLoader(URL_LOADER, null, this);

@@ -9,8 +9,13 @@ public class FragmentSet {
     public static final int SIGNIN = 0;
     public static final int SIGNUP = 1;
 
-    //Main activity
+    //Fragment view pager
     public static final int CHATLIST = 0;
     public static final int CONTACTS = 1;
-    public static final int PROFILE = 2;
+    public static final int MYPROFILE = 2;
+
+    //Main Activity
+    public static final int MAINVIEWPAGER = 0;
+    public static final int MAINPROFILE = 1;
+    public static final int MAINEDITPROFILE = 2;
 }

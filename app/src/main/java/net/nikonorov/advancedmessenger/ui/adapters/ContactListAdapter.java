@@ -10,6 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.nikonorov.advancedmessenger.R;
+import net.nikonorov.advancedmessenger.ui.ActivityMain;
+import net.nikonorov.advancedmessenger.ui.FragmentProfile;
+import net.nikonorov.advancedmessenger.ui.FragmentSet;
 import net.nikonorov.advancedmessenger.utils.Utils;
 
 import org.json.JSONException;
@@ -23,9 +26,11 @@ import java.util.ArrayList;
 public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.CardViewHolder> {
 
     ArrayList<JSONObject> data = null;
+    static ActivityMain activityMain = null;
 
-    public ContactListAdapter(ArrayList<JSONObject> data){
+    public ContactListAdapter(ArrayList<JSONObject> data, ActivityMain activityMain){
         this.data = data;
+        this.activityMain = activityMain;
     }
 
     @Override
@@ -78,6 +83,8 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         @Override
         public void onClick(View v) {
             Log.i("ContactListAdapter", "onClick RecyclerView "+userUid);
+            ((FragmentProfile)activityMain.fragments[FragmentSet.MAINPROFILE]).setUser(userUid);
+            activityMain.changeFragment(FragmentSet.MAINPROFILE);
         }
     }
 
