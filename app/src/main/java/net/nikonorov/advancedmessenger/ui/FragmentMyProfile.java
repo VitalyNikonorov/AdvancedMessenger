@@ -69,6 +69,12 @@ public class FragmentMyProfile extends CallableFragment implements LoaderManager
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        getLoaderManager().initLoader(URL_LOADER, null, this);
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
     }

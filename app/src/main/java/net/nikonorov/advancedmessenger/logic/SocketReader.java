@@ -21,7 +21,7 @@ import java.util.Set;
 /**
  * Created by vitaly on 26.01.16.
  */
-public class Reader extends Thread{
+public class SocketReader extends Thread{
 
     final static String CONTACTS_TABLE = "contacts";
     final static String USER_TABLE = "users";
@@ -35,7 +35,7 @@ public class Reader extends Thread{
 
     private final String LOG_TAG = "MasterService Log: ";
 
-    public Reader(InputStream is, boolean isWork, ReaderListener readerListener){
+    public SocketReader(InputStream is, boolean isWork, ReaderListener readerListener){
         this.isWork = isWork;
         this.is = is;
         this.readerListener = readerListener;

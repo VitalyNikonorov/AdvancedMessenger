@@ -2,81 +2,89 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/profile_edit_ava"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="32dp"
-        android:src="@drawable/chat_mock"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/profile_edit_nick_label"
-        android:layout_alignBottom="@+id/profile_edit_nick_et"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/profile_edit_nick_et"
-        android:text="Nick: "/>
+            <net.nikonorov.advancedmessenger.utils.AmazingPicture
+                android:id="@+id/profile_edit_ava"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/chat_mock"/>
 
-    <EditText
-        android:id="@+id/profile_edit_nick_et"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/profile_edit_ava"
-        android:layout_width="128dp"
-        android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/profile_edit_nick_label"
+                android:layout_alignBottom="@+id/profile_edit_nick_et"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/profile_edit_nick_et"
+                android:text="Nick: "/>
 
-    <TextView
-        android:id="@+id/profile_edit_email_label"
-        android:layout_alignBottom="@+id/profile_edit_email_et"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/profile_edit_nick_et"
-        android:text="Email: "/>
+            <EditText
+                android:id="@+id/profile_edit_nick_et"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/profile_edit_ava"
+                android:layout_width="128dp"
+                android:layout_height="wrap_content" />
 
-    <EditText
-        android:id="@+id/profile_edit_email_et"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/profile_edit_nick_et"
-        android:layout_width="128dp"
-        android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/profile_edit_email_label"
+                android:layout_alignBottom="@+id/profile_edit_email_et"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/profile_edit_nick_et"
+                android:text="Email: "/>
 
-    <TextView
-        android:id="@+id/profile_edit_phone_label"
-        android:layout_alignBottom="@+id/profile_edit_phone_et"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/profile_edit_nick_et"
-        android:text="Phone: "/>
+            <EditText
+                android:id="@+id/profile_edit_email_et"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/profile_edit_nick_et"
+                android:layout_width="128dp"
+                android:layout_height="wrap_content" />
 
-    <EditText
-        android:id="@+id/profile_edit_phone_et"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/profile_edit_email_et"
-        android:layout_width="128dp"
-        android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/profile_edit_phone_label"
+                android:layout_alignBottom="@+id/profile_edit_phone_et"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/profile_edit_nick_et"
+                android:text="Phone: "/>
 
-    <TextView
-        android:id="@+id/profile_edit_status_label"
-        android:layout_alignBottom="@+id/profile_edit_status_et"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/profile_edit_nick_et"
-        android:text="Status: "/>
+            <EditText
+                android:id="@+id/profile_edit_phone_et"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/profile_edit_email_et"
+                android:layout_width="128dp"
+                android:layout_height="wrap_content" />
 
-    <EditText
-        android:id="@+id/profile_edit_status_et"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/profile_edit_phone_et"
-        android:layout_width="128dp"
-        android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/profile_edit_status_label"
+                android:layout_alignBottom="@+id/profile_edit_status_et"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/profile_edit_nick_et"
+                android:text="Status: "/>
 
-    <Button
-        android:id="@+id/profile_edit_save_btn"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/profile_edit_status_et"
-        android:text="Save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/profile_edit_status_et"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/profile_edit_phone_et"
+                android:layout_width="128dp"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/profile_edit_save_btn"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/profile_edit_status_et"
+                android:text="Save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>

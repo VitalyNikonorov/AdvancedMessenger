@@ -67,7 +67,7 @@ public class MasterService extends Service implements ReaderListener {
 
 
             if (socket != null) {
-                new Reader(is, isWork, MasterService.this).start();
+                new SocketReader(is, isWork, MasterService.this).start();
             }
 
         }
