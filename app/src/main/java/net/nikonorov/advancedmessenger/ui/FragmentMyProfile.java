@@ -76,7 +76,7 @@ public class FragmentMyProfile extends CallableFragment implements LoaderManager
     @Override
     public void onResume() {
         super.onResume();
-        //getLoaderManager().restartLoader(URL_LOADER, null, this);
+        getLoaderManager().restartLoader(URL_LOADER, null, this);
     }
 
     @Override

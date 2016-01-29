@@ -14,6 +14,8 @@ public class ActivityMain extends AppCompatActivity {
 
     public Fragment[] fragments = new Fragment[3];
 
+    final static int REQUEST_CODE_PHOTO = 1;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
