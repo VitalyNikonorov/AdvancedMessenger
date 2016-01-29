@@ -3,12 +3,15 @@ package net.nikonorov.advancedmessenger.ui;
 import android.app.FragmentTransaction;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,12 +45,13 @@ public class FragmentMyProfile extends CallableFragment implements LoaderManager
 
     private final int ONE_MINUTE_MILLIS = 6000;
 
-    private AmazingPicture avaAP    = null;
-    private TextView nickTV   = null;
-    private TextView       emailTV  = null;
-    private TextView       phoneTV  = null;
-    private TextView       statutTV = null;
-    private Button         editBtn  = null;
+    private AmazingPicture avaAP     = null;
+    private TextView       nickTV    = null;
+    private TextView       emailTV   = null;
+    private TextView       phoneTV   = null;
+    private TextView       statutTV  = null;
+    private Button         editBtn   = null;
+    private Button         logoutBtn = null;
 
     @Nullable
     @Override
@@ -60,6 +64,32 @@ public class FragmentMyProfile extends CallableFragment implements LoaderManager
         phoneTV = (TextView) view.findViewById(R.id.my_profile_phone);
         statutTV = (TextView) view.findViewById(R.id.my_profile_status);
         editBtn = (Button) view.findViewById(R.id.my_profile_edit_btn);
+        logoutBtn = (Button) view.findViewById(R.id.my_profile_logout);
+
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                User.setLogin(null);
+                User.setCid(null);
+                User.setSid(null);
+                User.setPass(null);
+
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+                SharedPreferences.Editor editor = sharedPref.edit();
+
+                editor.putString("sid", null);
+                editor.putString("cid", null);
+
+                editor.putString("login", null);
+                editor.putString("pass", null);
+
+                editor.commit();
+
+                startActivity(new Intent(getActivity(), ActivitySign.class));
+                getActivity().finish();
+
+            }
+        });
 
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override

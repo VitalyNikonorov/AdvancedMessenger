@@ -77,29 +77,6 @@ public class FragmentSignin extends CallableFragment {
     @Override
     public void onResume() {
         super.onResume();
-
-//        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-//        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-//        String sid = sharedPref.getString("sid", null);
-//        String cid = sharedPref.getString("cid", null);
-//        String login = sharedPref.getString("login", null);
-//        String pass = sharedPref.getString("pass", null);
-//
-//        if (sid != null && cid != null && login != null){
-//            User.setSid(sid);
-//            User.setCid(cid);
-//            User.setLogin(login);
-//
-//            StringBuilder sb = new StringBuilder();
-//
-//            sb.append("{\"action\":\"auth\", \"data\":{\"login\":\"");
-//            sb.append(login).append("\", ");
-//            sb.append("\"pass\": \"").append(pass).append("\"}} ");
-//
-//            String reqObject = sb.toString();
-//
-//            serviceHelper.executeCommand(TaskType.AUTH, reqObject, getActivity());
-//        }
     }
 
     @Override

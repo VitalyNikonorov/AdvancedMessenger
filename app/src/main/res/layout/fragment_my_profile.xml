@@ -97,6 +97,15 @@
                 android:layout_marginTop="32dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/my_profile_logout"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/my_profile_edit_btn"
+                android:text="Logout"
+                android:layout_marginTop="32dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </RelativeLayout>
     </ScrollView>
 

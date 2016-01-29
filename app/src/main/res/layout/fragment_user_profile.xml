@@ -90,13 +90,23 @@
                 android:text="status"/>
 
             <Button
-                android:id="@+id/profile_save_btn"
+                android:id="@+id/profile_add_btn"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@id/profile_status"
-                android:text="Save"
+                android:text="Add Friend"
                 android:layout_marginTop="32dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/profile_del_btn"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/profile_add_btn"
+                android:text="Delete Friend"
+                android:layout_marginTop="32dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
         </RelativeLayout>
     </ScrollView>
 

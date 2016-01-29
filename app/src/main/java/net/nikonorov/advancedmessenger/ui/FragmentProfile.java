@@ -2,6 +2,7 @@ package net.nikonorov.advancedmessenger.ui;
 
 import android.app.LoaderManager;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import net.nikonorov.advancedmessenger.R;
@@ -38,11 +40,13 @@ public class FragmentProfile extends CallableFragment implements LoaderManager.L
 
     private final int ONE_MINUTE_MILLIS = 6000;
 
-    private AmazingPicture avaAP    = null;
-    private TextView       nickTV   = null;
-    private TextView       emailTV  = null;
-    private TextView       phoneTV  = null;
-    private TextView       statutTV = null;
+    private AmazingPicture avaAP     = null;
+    private TextView       nickTV    = null;
+    private TextView       emailTV   = null;
+    private TextView       phoneTV   = null;
+    private TextView       statutTV  = null;
+    private Button         addFriend = null;
+    private Button         delFriend = null;
 
     @Nullable
     @Override
@@ -54,8 +58,42 @@ public class FragmentProfile extends CallableFragment implements LoaderManager.L
         emailTV = (TextView) view.findViewById(R.id.profile_email);
         phoneTV = (TextView) view.findViewById(R.id.profile_phone);
         statutTV = (TextView) view.findViewById(R.id.profile_status);
+        addFriend = (Button) view.findViewById(R.id.profile_add_btn);
+        delFriend = (Button) view.findViewById(R.id.profile_del_btn);
 
         getLoaderManager().initLoader(URL_LOADER, null, this);
+
+        addFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StringBuilder sb = new StringBuilder();
+
+                sb.append("{\"action\":\"addcontact\", \"data\":{\"cid\":\"");
+                sb.append(User.getCid()).append("\", \"sid\":\"");
+                sb.append(User.getSid()).append("\", ");
+                sb.append("\"uid\": \"").append(user).append("\"}} ");
+
+                String reqObject = sb.toString();
+
+                serviceHelper.executeCommand(TaskType.ADDCONTACT, reqObject, getActivity());
+            }
+        });
+
+        delFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StringBuilder sb = new StringBuilder();
+
+                sb.append("{\"action\":\"delcontact\", \"data\":{\"cid\":\"");
+                sb.append(User.getCid()).append("\", \"sid\":\"");
+                sb.append(User.getSid()).append("\", ");
+                sb.append("\"uid\": \"").append(user).append("\"}} ");
+
+                String reqObject = sb.toString();
+
+                serviceHelper.executeCommand(TaskType.DELCONTACT, reqObject, getActivity());
+            }
+        });
 
         return view;
     }
