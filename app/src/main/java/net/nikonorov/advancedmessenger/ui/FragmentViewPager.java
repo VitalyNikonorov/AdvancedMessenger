@@ -39,7 +39,7 @@ public class FragmentViewPager extends CallableFragment {
         fragments[FragmentSet.MYPROFILE] = new FragmentMyProfile();
 
         viewPager = (ViewPager) view.findViewById(R.id.pager);
-        pagerAdapter = new MyFragmentPagerAdapter(getFragmentManager());
+        pagerAdapter = new MyFragmentPagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(pagerAdapter);
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
