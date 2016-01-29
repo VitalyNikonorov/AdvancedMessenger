@@ -1,11 +1,14 @@
 package net.nikonorov.advancedmessenger.ui;
 
+import android.app.FragmentTransaction;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,6 +33,8 @@ import org.json.JSONObject;
 public class FragmentMyProfile extends CallableFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public FragmentMyProfile(){}
+
+    private static int MSG_REFRESH = 1;
 
     private final String LOG_TAG = "MyProfile";
 
@@ -71,7 +76,7 @@ public class FragmentMyProfile extends CallableFragment implements LoaderManager
     @Override
     public void onResume() {
         super.onResume();
-        getLoaderManager().initLoader(URL_LOADER, null, this);
+        //getLoaderManager().restartLoader(URL_LOADER, null, this);
     }
 
     @Override
@@ -138,6 +143,7 @@ public class FragmentMyProfile extends CallableFragment implements LoaderManager
         if(time < (System.currentTimeMillis() - ONE_MINUTE_MILLIS)){
             getUserFromNet();
         }
+
     }
 
     private void getUserFromNet(){
