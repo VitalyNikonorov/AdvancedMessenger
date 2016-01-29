@@ -36,6 +36,8 @@ public class FragmentProfile extends CallableFragment implements LoaderManager.L
 
     private String user = null;
 
+    private String userAva = "";
+
     private static final int URL_LOADER = 1;
 
     private final int ONE_MINUTE_MILLIS = 6000;
@@ -47,6 +49,7 @@ public class FragmentProfile extends CallableFragment implements LoaderManager.L
     private TextView       statutTV  = null;
     private Button         addFriend = null;
     private Button         delFriend = null;
+    private Button         openChat  = null;
 
     @Nullable
     @Override
@@ -60,6 +63,7 @@ public class FragmentProfile extends CallableFragment implements LoaderManager.L
         statutTV = (TextView) view.findViewById(R.id.profile_status);
         addFriend = (Button) view.findViewById(R.id.profile_add_btn);
         delFriend = (Button) view.findViewById(R.id.profile_del_btn);
+        openChat = (Button) view.findViewById(R.id.profile_chat_btn);
 
         getLoaderManager().initLoader(URL_LOADER, null, this);
 
@@ -92,6 +96,15 @@ public class FragmentProfile extends CallableFragment implements LoaderManager.L
                 String reqObject = sb.toString();
 
                 serviceHelper.executeCommand(TaskType.DELCONTACT, reqObject, getActivity());
+            }
+        });
+
+        openChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((FragmentChat)((ActivityMain)getActivity()).fragments[FragmentSet.MAINCHAT]).setUserAva(userAva);
+                ((FragmentChat)((ActivityMain)getActivity()).fragments[FragmentSet.MAINCHAT]).setUser(user);
+                ((ActivityMain)getActivity()).changeFragment(FragmentSet.MAINCHAT);
             }
         });
 
@@ -155,6 +168,8 @@ public class FragmentProfile extends CallableFragment implements LoaderManager.L
                 JSONObject jsonObject = new JSONObject(userData);
 
                 Utils.setPhoto(jsonObject.getString("picture"), avaAP);
+                userAva = jsonObject.getString("picture");
+
                 nickTV.setText(jsonObject.getString("nick"));
                 emailTV.setText(jsonObject.getString("email"));
                 phoneTV.setText(jsonObject.getString("phone"));

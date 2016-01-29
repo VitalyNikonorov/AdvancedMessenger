@@ -158,6 +158,8 @@ public class FragmentMyProfile extends CallableFragment implements LoaderManager
                 JSONObject jsonObject = new JSONObject(userData);
 
                 Utils.setPhoto(jsonObject.getString("picture"), avaAP);
+                User.setPicture(jsonObject.getString("picture"));
+
                 nickTV.setText(jsonObject.getString("nick"));
                 emailTV.setText(jsonObject.getString("email"));
                 phoneTV.setText(jsonObject.getString("phone"));

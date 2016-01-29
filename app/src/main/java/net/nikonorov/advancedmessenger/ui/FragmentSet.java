@@ -18,4 +18,5 @@ public class FragmentSet {
     public static final int MAINVIEWPAGER = 0;
     public static final int MAINPROFILE = 1;
     public static final int MAINEDITPROFILE = 2;
+    public static final int MAINCHAT = 3;
 }

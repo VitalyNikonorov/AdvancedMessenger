@@ -12,7 +12,7 @@ import net.nikonorov.advancedmessenger.R;
  */
 public class ActivityMain extends AppCompatActivity {
 
-    public Fragment[] fragments = new Fragment[3];
+    public Fragment[] fragments = new Fragment[4];
 
     final static int REQUEST_CODE_PHOTO = 1;
 
@@ -24,6 +24,7 @@ public class ActivityMain extends AppCompatActivity {
         fragments[FragmentSet.MAINVIEWPAGER] = new FragmentViewPager();
         fragments[FragmentSet.MAINEDITPROFILE] = new FragmentEditProfile();
         fragments[FragmentSet.MAINPROFILE] = new FragmentProfile();
+        fragments[FragmentSet.MAINCHAT] = new FragmentChat();
 
         FragmentTransaction transaction =  getFragmentManager().beginTransaction();
         transaction.add(R.id.fragment_main_place, fragments[FragmentSet.MAINVIEWPAGER]);

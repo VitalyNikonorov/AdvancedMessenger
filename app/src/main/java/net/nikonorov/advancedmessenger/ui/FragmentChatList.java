@@ -65,50 +65,6 @@ public class FragmentChatList extends CallableFragment implements LoaderManager.
     public void onResume() {
         super.onResume();
 
-        //cursor = getActivity().getContentResolver().query(Uri.parse("content://net.nikonorov.advancedmessenger.providers.db/contacts"), null, "user = \'"+ User.getLogin()+"\'",
-        //        null, null);
-
-//        String dataList = "";
-//        long time = 0;
-//
-//        if(cursor == null){
-//            getContactListFromNet();
-//        }else {
-//            if (cursor.moveToFirst()){
-//                while(!cursor.isAfterLast()){
-//                    dataList = cursor.getString(cursor.getColumnIndex("data"));
-//                    time = Long.valueOf(cursor.getString(cursor.getColumnIndex("time")));
-//                    cursor.moveToNext();
-//                }
-//            }
-//            cursor.close();
-//
-//            try {
-//                JSONArray list = (new JSONObject(dataList)).getJSONArray("list");
-//
-//                data.clear();
-//
-//                for(int i = 0; i < list.length(); i++){
-//                    data.add(list.getJSONObject(i));
-//                }
-//
-//                adapter = new ContactListAdapter(new ArrayList<JSONObject>(data));
-//                getActivity().runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        adapter.notifyDataSetChanged();
-//                    }
-//                });
-//
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//        if(time < (System.currentTimeMillis() - ONE_MINUTE_MILLIS)){
-//            getContactListFromNet();
-//        }
-
     }
 
     private void getContactListFromNet(){

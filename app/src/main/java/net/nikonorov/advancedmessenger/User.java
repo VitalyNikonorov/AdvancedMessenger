@@ -10,6 +10,8 @@ public class User {
     private static String sid;
     private static String cid;
 
+    private static String picture;
+
     public static void setLogin(String login) {
         User.login = login;
     }
@@ -40,5 +42,13 @@ public class User {
 
     public static String getCid() {
         return cid;
+    }
+
+    public static String getPicture() {
+        return picture;
+    }
+
+    public static void setPicture(String picture) {
+        User.picture = picture;
     }
 }
