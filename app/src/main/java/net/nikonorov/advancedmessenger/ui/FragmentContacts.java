@@ -1,12 +1,11 @@
 package net.nikonorov.advancedmessenger.ui;
 
 import android.Manifest;
-import android.app.Fragment;
+import android.app.Dialog;
 import android.app.LoaderManager;
 import android.content.ContentResolver;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -23,6 +22,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.PopupWindow;
+import android.view.ViewGroup.LayoutParams;
 
 import net.nikonorov.advancedmessenger.R;
 import net.nikonorov.advancedmessenger.User;
@@ -46,6 +48,8 @@ public class FragmentContacts extends CallableFragment implements LoaderManager.
     private ArrayList<JSONObject> data = new ArrayList<>();
     private RecyclerView recyclerView  = null;
 
+    private Button findUserBtn = null;
+
     private static final int URL_LOADER = 2;
 
     private final int ONE_MINUTE_MILLIS = 6000;
@@ -60,6 +64,36 @@ public class FragmentContacts extends CallableFragment implements LoaderManager.
         View view = inflater.inflate(R.layout.fragment_contacts, null);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.contacts_list);
+
+        findUserBtn = (Button) view.findViewById(R.id.find_users_btn);
+
+        findUserBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+
+                // custom dialog
+                final Dialog dialog = new Dialog(getActivity());
+                dialog.setContentView(R.layout.popup_find_user);
+                dialog.setTitle("Title...");
+
+//                // set the custom dialog components - text, image and button
+//                TextView text = (TextView) dialog.findViewById(R.id.text);
+//                text.setText("Android custom dialog example!");
+//                ImageView image = (ImageView) dialog.findViewById(R.id.image);
+//                image.setImageResource(R.drawable.ic_launcher);
+
+                Button dialogButton = (Button) dialog.findViewById(R.id.find_user_close);
+                // if button is clicked, close the custom dialog
+                dialogButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
+            }
+        });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 

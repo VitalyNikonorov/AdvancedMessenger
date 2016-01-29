@@ -1,5 +1,6 @@
 package net.nikonorov.advancedmessenger.ui;
 
+import android.app.Dialog;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -14,6 +15,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.PopupWindow;
 import android.widget.SimpleCursorAdapter;
 
 import net.nikonorov.advancedmessenger.R;
@@ -35,6 +39,7 @@ public class FragmentChatList extends CallableFragment implements LoaderManager.
     private ContactListAdapter adapter = null;
     private ArrayList<JSONObject> data = new ArrayList<>();
     private RecyclerView recyclerView  = null;
+    private Button addUserBtn = null;
 
     private static final int URL_LOADER = 0;
 
@@ -57,6 +62,62 @@ public class FragmentChatList extends CallableFragment implements LoaderManager.
         recyclerView.setAdapter(adapter);
 
         getLoaderManager().initLoader(URL_LOADER, null, this);
+
+        addUserBtn = (Button) view.findViewById(R.id.add_users_btn);
+
+        addUserBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+
+                // custom dialog
+                final Dialog dialog = new Dialog(getActivity());
+                dialog.setContentView(R.layout.popup_add_user);
+                dialog.setTitle("Title...");
+
+                Button btnDismiss = (Button) dialog.findViewById(R.id.add_user_close);
+                btnDismiss.setOnClickListener(new Button.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                Button addBtn = (Button) dialog.findViewById(R.id.add_user_byuid_btn);
+                final EditText addUserUidET = (EditText) dialog.findViewById(R.id.add_user_uid);
+                addBtn.setOnClickListener(new Button.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        StringBuilder sb = new StringBuilder();
+
+                        sb.append("{\"action\":\"addcontact\", \"data\":{\"cid\":\"");
+                        sb.append(User.getCid()).append("\", \"sid\":\"");
+                        sb.append(User.getSid()).append("\", ");
+                        sb.append("\"uid\": \"").append(addUserUidET.getText().toString()).append("\"}} ");
+
+                        String reqObject = sb.toString();
+
+                        serviceHelper.executeCommand(TaskType.DELCONTACT, reqObject, getActivity());
+
+                        dialog.dismiss();
+                    }
+                });
+
+
+                Button dialogButton = (Button) dialog.findViewById(R.id.add_user_close);
+                // if button is clicked, close the custom dialog
+                dialogButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
+            }
+        });
 
         return view;
     }
