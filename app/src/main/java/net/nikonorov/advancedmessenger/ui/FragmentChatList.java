@@ -171,7 +171,7 @@ public class FragmentChatList extends CallableFragment implements LoaderManager.
         String dataList = "";
         long time = 0;
 
-        if(cursor == null){
+        if((cursor == null) || (cursor.getCount() == 0)){
             getContactListFromNet();
         }else {
             if (cursor.moveToFirst()){

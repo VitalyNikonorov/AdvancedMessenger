@@ -1,15 +1,25 @@
 package net.nikonorov.advancedmessenger.ui;
 
+import android.Manifest;
 import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.Loader;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +36,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
@@ -47,6 +58,7 @@ public class FragmentChat extends CallableFragment implements LoaderManager.Load
 
     private String preparedProto = "";
     private Button sendBtn = null;
+    private Button putExtra = null;
     private EditText messageET = null;
     private RecyclerView chatList = null;
 
@@ -60,11 +72,41 @@ public class FragmentChat extends CallableFragment implements LoaderManager.Load
         View view = inflater.inflate(R.layout.fragment_chat, null);
 
         sendBtn = (Button) view.findViewById(R.id.send_msg_btn);
+        putExtra = (Button) view.findViewById(R.id.extra_msg_btn);
         messageET = (EditText) view.findViewById(R.id.msg_et);
         chatList = (RecyclerView) view.findViewById(R.id.chat_rv);
 
         chatList = (RecyclerView) view.findViewById(R.id.chat_rv);
         chatList.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        putExtra.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int hasReadContactsPermission = ContextCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.CAMERA);
+
+                if (hasReadContactsPermission != PackageManager.PERMISSION_GRANTED) {
+                    if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                            Manifest.permission.CAMERA)) {
+                        showMessageOKCancel("You need to allow access to CAMERA",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        ActivityCompat.requestPermissions(getActivity(),
+                                                new String[] {Manifest.permission.CAMERA},
+                                                ActivityMain.REQUEST_CODE_PHOTO);
+                                    }
+                                });
+                        return ;
+                    }
+                    ActivityCompat.requestPermissions(getActivity(),
+                            new String[] {Manifest.permission.CAMERA},
+                            ActivityMain.REQUEST_CODE_PHOTO);
+                    return ;
+                }
+                takePhoto();
+            }
+        });
 
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -222,4 +264,41 @@ public class FragmentChat extends CallableFragment implements LoaderManager.Load
 
         Log.i(LOG_TAG, "insert, result Uri : " + newUri.toString());
     }
+
+    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(getActivity())
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show();
+    }
+
+    public void takePhoto() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, ActivityMain.REQUEST_CODE_PHOTO);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == ActivityMain.REQUEST_CODE_PHOTO) {
+            if (resultCode == getActivity().RESULT_OK) {
+                Log.d(LOG_TAG, "Photo uri: " + data.getData());
+                Bitmap photo = (Bitmap) data.getExtras().get("data");
+
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                photo.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+
+                byte[] compressedPhoto = baos.toByteArray();
+
+                String encodedPhoto = Base64.encodeToString(compressedPhoto, Base64.NO_WRAP);
+
+                preparedProto = encodedPhoto;
+            }
+
+            Log.i("PHOTO", "photo");
+        }
+    }
+
 }

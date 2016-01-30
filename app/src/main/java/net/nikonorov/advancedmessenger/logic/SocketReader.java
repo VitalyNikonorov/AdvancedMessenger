@@ -159,14 +159,18 @@ public class SocketReader extends Thread{
                 case "ev_message":
                     taskType = TaskType.EV_MESSAGE;
 
-                    HashMap<String, String> dataSetDialogs = new HashMap<>();
-                    dataSetDialogs.put("to_user", User.getLogin());
-                    dataSetDialogs.put("from_user", jsonObject.getJSONObject("data").getString("from"));
-                    dataSetDialogs.put("data", jsonObject.getJSONObject("data").toString());
-                    dataSetDialogs.put("time", Long.valueOf(System.currentTimeMillis()).toString());
 
-                    saveData(dataSetDialogs, DIALOGS_TABLE);
+                    if(!jsonObject.getJSONObject("data").getString("from").equals(User.getLogin())) {
 
+                        HashMap<String, String> dataSetDialogs = new HashMap<>();
+                        dataSetDialogs.put("to_user", User.getLogin());
+                        dataSetDialogs.put("from_user", jsonObject.getJSONObject("data").getString("from"));
+                        dataSetDialogs.put("data", jsonObject.getJSONObject("data").toString());
+                        dataSetDialogs.put("time", Long.valueOf(System.currentTimeMillis()).toString());
+
+                        saveData(dataSetDialogs, DIALOGS_TABLE);
+
+                    }
                     break;
             }
 
