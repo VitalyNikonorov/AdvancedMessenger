@@ -32,7 +32,6 @@ import net.nikonorov.advancedmessenger.User;
 import net.nikonorov.advancedmessenger.ui.adapters.ChatAdapter;
 import net.nikonorov.advancedmessenger.utils.TaskType;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 

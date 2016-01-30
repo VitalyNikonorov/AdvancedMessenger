@@ -40,9 +40,12 @@ public class Utils {
     }
 
     public static void setPhoto(String encodedPhoto, ImageView imageView) {
-        byte[] decodedPhoto = Base64.decode(encodedPhoto, Base64.NO_WRAP);
+        if((encodedPhoto != null) && !(encodedPhoto.equals("")) ) {
 
-        Bitmap procPhoto = BitmapFactory.decodeByteArray(decodedPhoto, 0, decodedPhoto.length);
-        imageView.setImageBitmap(procPhoto);
+            byte[] decodedPhoto = Base64.decode(encodedPhoto, Base64.NO_WRAP);
+
+            Bitmap procPhoto = BitmapFactory.decodeByteArray(decodedPhoto, 0, decodedPhoto.length);
+            imageView.setImageBitmap(procPhoto);
+        }
     }
 }
