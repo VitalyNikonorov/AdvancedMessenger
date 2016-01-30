@@ -53,6 +53,13 @@ public class ActivitySplash extends Activity implements ServiceHelperListener {
     protected void onStop() {
         isActive = false;
         super.onStop();
+        App.onActivityStop();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        App.onActivityStart();
     }
 
     @Override

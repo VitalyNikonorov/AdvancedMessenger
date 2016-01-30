@@ -23,7 +23,7 @@ public class Provider extends ContentProvider {
     static final String AUTHORITY = "net.nikonorov.advancedmessenger.providers.db";
 
     final static String DB_NAME = "advmessenger";
-    final static int DB_VERSION = 1;
+    final static int DB_VERSION = 2;
 
     final static String _ID = "_id";
 
@@ -123,6 +123,12 @@ public class Provider extends ContentProvider {
 
             @Override
             public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+                db.execSQL("DROP TABLE IF EXISTS " + USER_TABLE + ";");
+                db.execSQL("DROP TABLE IF EXISTS " + IMPORT_TABLE + ";");
+                db.execSQL("DROP TABLE IF EXISTS " + DIALOGS_TABLE + ";");
+                db.execSQL("DROP TABLE IF EXISTS " + CONTACTS_TABLE + ";");
+
                 onCreate(db);
             }
         };

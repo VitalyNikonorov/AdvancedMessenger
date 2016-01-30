@@ -11,6 +11,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 
+import net.nikonorov.advancedmessenger.App;
 import net.nikonorov.advancedmessenger.R;
 
 /**
@@ -70,6 +71,18 @@ public class ActivitySign extends Activity {
                     REQUEST_CONTACTS);
             return;
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        App.onActivityStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        App.onActivityStop();
     }
 
     public void changeFragment(int oldFragment, int newFragment){

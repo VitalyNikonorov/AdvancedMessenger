@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import net.nikonorov.advancedmessenger.App;
 import net.nikonorov.advancedmessenger.R;
 
 /**
@@ -29,6 +30,18 @@ public class ActivityMain extends AppCompatActivity {
         FragmentTransaction transaction =  getFragmentManager().beginTransaction();
         transaction.add(R.id.fragment_main_place, fragments[FragmentSet.MAINVIEWPAGER]);
         transaction.commit();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        App.onActivityStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        App.onActivityStop();
     }
 
     public void changeFragment(int newFragment){

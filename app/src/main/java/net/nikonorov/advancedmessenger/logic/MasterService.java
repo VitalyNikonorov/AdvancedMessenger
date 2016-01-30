@@ -1,15 +1,26 @@
 package net.nikonorov.advancedmessenger.logic;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.util.Base64;
 import android.util.Log;
 
 import net.nikonorov.advancedmessenger.App;
 import net.nikonorov.advancedmessenger.MasterServiceListener;
+import net.nikonorov.advancedmessenger.R;
 import net.nikonorov.advancedmessenger.ReaderListener;
+import net.nikonorov.advancedmessenger.ui.ActivityMain;
 import net.nikonorov.advancedmessenger.utils.TaskType;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -46,6 +57,11 @@ public class MasterService extends Service implements ReaderListener {
 
     @Override
     public void onReadEvent(int taskType, String response, int code) {
+
+        if(taskType == TaskType.EV_MESSAGE && ((App)getApplication()).isAppHidden()){
+            sendNotification(response);
+        }
+
         listener.onRecieveMasterResponse(taskType, response, code);
     }
 
@@ -71,6 +87,43 @@ public class MasterService extends Service implements ReaderListener {
             }
 
         }
+    }
+
+    public void sendNotification(String data){
+
+        Notification.Builder builder = new Notification.Builder(MasterService.this);
+
+        Intent intent = new Intent(MasterService.this, ActivityMain.class);
+
+        //byte[] decodedPhoto = Base64.decode(encodedPhoto, Base64.NO_WRAP);
+
+        //Bitmap procPhoto = BitmapFactory.decodeByteArray(decodedPhoto, 0, decodedPhoto.length);
+
+        JSONObject object = null;
+
+        try {
+            object = (new JSONObject(data)).getJSONObject("data");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            builder
+                    //.setContentIntent(intent);
+                    .setSmallIcon(R.drawable.icon)
+                    .setTicker("new message from " + object.getString("nick"))
+                    .setWhen(System.currentTimeMillis())
+                    .setAutoCancel(true)
+                    .setContentTitle("Advanced messenger")
+                    .setContentText(object.getString("body"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Notification notification = builder.build();
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(1, notification);
     }
 
     @Override
