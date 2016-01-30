@@ -2,14 +2,13 @@ package net.nikonorov.advancedmessenger.logic;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.util.Base64;
+import android.text.Html;
 import android.util.Log;
 
 import net.nikonorov.advancedmessenger.App;
@@ -93,12 +92,6 @@ public class MasterService extends Service implements ReaderListener {
 
         Notification.Builder builder = new Notification.Builder(MasterService.this);
 
-        Intent intent = new Intent(MasterService.this, ActivityMain.class);
-
-        //byte[] decodedPhoto = Base64.decode(encodedPhoto, Base64.NO_WRAP);
-
-        //Bitmap procPhoto = BitmapFactory.decodeByteArray(decodedPhoto, 0, decodedPhoto.length);
-
         JSONObject object = null;
 
         try {
@@ -108,14 +101,18 @@ public class MasterService extends Service implements ReaderListener {
         }
 
         try {
+            Intent intent = new Intent(MasterService.this, ActivityMain.class);
+            intent.putExtra("uid", object.getString("from"));
+            PendingIntent pIntent = PendingIntent.getActivity(MasterService.this, (int) System.currentTimeMillis(), intent, 0);
+
             builder
-                    //.setContentIntent(intent);
+                    .setContentIntent(pIntent)
                     .setSmallIcon(R.drawable.icon)
                     .setTicker("new message from " + object.getString("nick"))
                     .setWhen(System.currentTimeMillis())
                     .setAutoCancel(true)
                     .setContentTitle("Advanced messenger")
-                    .setContentText(object.getString("body"));
+                    .setContentText(Html.fromHtml("<b>"+object.getString("nick") +"</b>: "+object.getString("body")));
         } catch (JSONException e) {
             e.printStackTrace();
         }

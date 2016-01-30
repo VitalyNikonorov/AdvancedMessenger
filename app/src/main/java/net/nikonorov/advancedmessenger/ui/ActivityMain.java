@@ -2,6 +2,7 @@ package net.nikonorov.advancedmessenger.ui;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -28,7 +29,16 @@ public class ActivityMain extends AppCompatActivity {
         fragments[FragmentSet.MAINCHAT] = new FragmentChat();
 
         FragmentTransaction transaction =  getFragmentManager().beginTransaction();
-        transaction.add(R.id.fragment_main_place, fragments[FragmentSet.MAINVIEWPAGER]);
+
+        Intent intent = getIntent();
+
+        String uid = intent.getStringExtra("uid");
+        if(uid != null){
+            ((FragmentProfile)fragments[FragmentSet.MAINPROFILE]).setUser(uid);
+            transaction.add(R.id.fragment_main_place, fragments[FragmentSet.MAINCHAT]);
+        }else {
+            transaction.add(R.id.fragment_main_place, fragments[FragmentSet.MAINVIEWPAGER]);
+        }
         transaction.commit();
     }
 
