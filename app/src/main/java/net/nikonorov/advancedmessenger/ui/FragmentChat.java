@@ -221,7 +221,9 @@ public class FragmentChat extends CallableFragment implements LoaderManager.Load
         });
 
 
-        data = new ArrayList<>(loadData);
+        for(int i = 0; i < loadData.size(); i++){
+            data.add(loadData.get(i));
+        }
 
         getActivity().runOnUiThread(new Runnable() {
             @Override

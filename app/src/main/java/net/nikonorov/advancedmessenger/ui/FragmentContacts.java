@@ -243,7 +243,7 @@ public class FragmentContacts extends CallableFragment implements LoaderManager.
         String dataList = "";
         long time = 0;
 
-        if(cursor == null){
+        if((cursor == null) || (cursor.getCount() == 0)){
             getContactFromNet();
         }else {
             if (cursor.moveToFirst()){
