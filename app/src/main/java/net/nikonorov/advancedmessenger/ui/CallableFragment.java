@@ -55,6 +55,10 @@ public abstract class CallableFragment extends Fragment implements ServiceHelper
             case Code.TIMEOUT:
                 timeoutCodeHandle();
                 break;
+            case Code.ErrNeedAuth:{
+                startActivity(new Intent(getActivity(), ActivitySign.class));
+                getActivity().finish();
+            }
             default:
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
