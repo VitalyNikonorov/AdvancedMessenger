@@ -113,10 +113,12 @@ public class FragmentChat extends CallableFragment implements LoaderManager.Load
 
                 StringBuilder sb = new StringBuilder();
 
+                String msg = messageET.getText().toString();
+
                 sb.append("{\"action\":\"message\", \"data\":{\"cid\":\"");
                 sb.append(User.getCid()).append("\", \"sid\":\"");
                 sb.append(User.getSid()).append("\", \"uid\":\"").append(user).append("\", ");
-                sb.append("\"body\": \"").append(messageET.getText()).append("\", ")
+                sb.append("\"body\": \"").append(msg).append("\", ")
                         .append("\"attach\": ")
                         .append("{\"mime\": \"photo\", \"data\":\"")
                         .append(preparedProto)
@@ -133,7 +135,7 @@ public class FragmentChat extends CallableFragment implements LoaderManager.Load
                         .append("\", \"nick\":\"")
                         .append("me")
                         .append("\", \"body\":\"")
-                        .append(messageET.getText())
+                        .append(msg)
                         .append("\", \"time\":\"")
                         .append(Long.valueOf(System.currentTimeMillis()).toString())
                         .append("\", \"attach\": { \"mime\":\"")
@@ -145,17 +147,16 @@ public class FragmentChat extends CallableFragment implements LoaderManager.Load
 
                 Log.d(LOG_TAG, reqObject);
 
-                preparedProto = "";
-
                 serviceHelper.executeCommand(TaskType.MESSAGE, reqObject, getActivity());
 
                 HashMap<String, String> dataSetDialogs = new HashMap<>();
                 dataSetDialogs.put("to_user", User.getLogin());
-                dataSetDialogs.put("from_user", User.getLogin());
+                dataSetDialogs.put("from_user", user);
                 dataSetDialogs.put("data", builder.toString());
                 dataSetDialogs.put("time", Long.valueOf(System.currentTimeMillis()).toString());
 
                 saveData(dataSetDialogs, DIALOGS_TABLE);
+                preparedProto = "";
             }
         });
 
@@ -231,6 +232,12 @@ public class FragmentChat extends CallableFragment implements LoaderManager.Load
             }
         });
 
+        chatList.post(new Runnable() {
+            @Override
+            public void run() {
+                chatList.smoothScrollToPosition(adapter.getItemCount());
+            }
+        });
 
     }
 

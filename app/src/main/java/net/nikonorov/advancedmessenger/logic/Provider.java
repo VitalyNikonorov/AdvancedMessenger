@@ -23,7 +23,7 @@ public class Provider extends ContentProvider {
     static final String AUTHORITY = "net.nikonorov.advancedmessenger.providers.db";
 
     final static String DB_NAME = "advmessenger";
-    final static int DB_VERSION = 2;
+    final static int DB_VERSION = 3;
 
     final static String _ID = "_id";
 
