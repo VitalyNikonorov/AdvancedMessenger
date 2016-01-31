@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import net.nikonorov.advancedmessenger.R;
@@ -63,7 +64,20 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.CardViewHolder
         }
 
         try {
-            Utils.setPhoto(messages.get(position).getJSONObject("attach").getString("data"), holder.msgPhoto);
+
+            if((messages.get(position).getJSONObject("attach").getString("data") != null)
+                    && !(messages.get(position).getJSONObject("attach").getString("data").equals(""))
+                    && ((messages.get(position).getJSONObject("attach").getString("mime").contains("image")))){
+
+                ImageView attachedImg = new ImageView(activityMain);
+                Utils.setPhoto(messages.get(position).getJSONObject("attach").getString("data"), attachedImg);
+
+                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                params.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+                params.addRule(RelativeLayout.BELOW, R.id.cv_message);
+                holder.msgLayout.addView(attachedImg, params);
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -78,16 +92,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.CardViewHolder
         CardView cv;
         TextView messageView;
         ImageView authorAva;
-        ImageView   msgPhoto;
-
+        RelativeLayout msgLayout;
         CardViewHolder(View itemView) {
             super(itemView);
             cv = (CardView)itemView.findViewById(R.id.cv);
             messageView = (TextView)itemView.findViewById(R.id.cv_message);
             authorAva = (ImageView)itemView.findViewById(R.id.cv_iv);
-
-            msgPhoto = (ImageView) itemView.findViewById(R.id.cv_msgphoto);
-
+            msgLayout = (RelativeLayout) itemView.findViewById(R.id.message_layout);
         }
 
     }

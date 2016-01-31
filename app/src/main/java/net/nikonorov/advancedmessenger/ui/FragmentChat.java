@@ -126,7 +126,7 @@ public class FragmentChat extends CallableFragment implements LoaderManager.Load
                 sb.append(User.getSid()).append("\", \"uid\":\"").append(user).append("\", ");
                 sb.append("\"body\": \"").append(msg).append("\", ")
                         .append("\"attach\": ")
-                        .append("{\"mime\": \"photo\", \"data\":\"")
+                        .append("{\"mime\": \"image/jpeg\", \"data\":\"")
                         .append(preparedProto)
                         .append("\"}")
                         .append("}}");
