@@ -176,6 +176,7 @@ public class Provider extends ContentProvider {
 
         Uri resultUri = ContentUris.withAppendedId(CONTENT_URI, rowID);
 
+        getContext().getContentResolver().notifyChange(resultUri, null);
         return resultUri;
     }
 

@@ -197,8 +197,6 @@ public class FragmentChat extends CallableFragment implements LoaderManager.Load
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         ArrayList<JSONObject> loadData = new ArrayList<JSONObject>();
 
-
-
         if (cursor.moveToFirst()){
             while(!cursor.isAfterLast()){
                 try {

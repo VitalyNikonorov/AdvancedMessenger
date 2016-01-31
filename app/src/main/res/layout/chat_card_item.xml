@@ -41,7 +41,6 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_weight="1"
-            android:src="@drawable/chat_mock"
             android:layout_toRightOf="@id/cv_message"
             android:id="@+id/cv_msgphoto"/>
 
