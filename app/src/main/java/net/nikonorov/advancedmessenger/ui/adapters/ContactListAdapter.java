@@ -13,6 +13,7 @@ import net.nikonorov.advancedmessenger.R;
 import net.nikonorov.advancedmessenger.ui.ActivityMain;
 import net.nikonorov.advancedmessenger.ui.FragmentProfile;
 import net.nikonorov.advancedmessenger.ui.FragmentSet;
+import net.nikonorov.advancedmessenger.utils.BufferClass;
 import net.nikonorov.advancedmessenger.utils.Utils;
 
 import org.json.JSONException;
@@ -84,6 +85,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         public void onClick(View v) {
             Log.i("ContactListAdapter", "onClick RecyclerView "+userUid);
             ((FragmentProfile)activityMain.fragments[FragmentSet.MAINPROFILE]).setUser(userUid);
+            BufferClass.setAskedUser(userUid);
             activityMain.changeFragment(FragmentSet.MAINPROFILE);
         }
     }

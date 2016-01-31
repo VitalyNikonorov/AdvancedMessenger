@@ -128,7 +128,7 @@ public class FragmentProfile extends CallableFragment implements LoaderManager.L
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         if (user == null){
-            user = User.getLogin();
+            user = BufferClass.getAskedUser();
         }
         switch (id) {
             case URL_LOADER:
@@ -192,10 +192,8 @@ public class FragmentProfile extends CallableFragment implements LoaderManager.L
     private void getUserFromNet(){
 
         if(user == null){
-            user = User.getLogin();
+            user = BufferClass.getAskedUser();
         }
-
-        BufferClass.setAskedUser(user);
 
         StringBuilder sb = new StringBuilder();
 

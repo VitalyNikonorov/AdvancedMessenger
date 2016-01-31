@@ -112,6 +112,7 @@ public class FragmentSignin extends CallableFragment {
 
             Intent intent = new Intent(getActivity(), ActivityMain.class);
             startActivity(intent);
+            getActivity().finish();
         }
     }
 }

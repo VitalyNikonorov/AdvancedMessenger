@@ -105,6 +105,7 @@ public class FragmentSignup extends CallableFragment {
 
             Intent intent = new Intent(getActivity(), ActivityMain.class);
             startActivity(intent);
+            getActivity().finish();
         }
 
     }
