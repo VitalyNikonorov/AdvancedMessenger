@@ -225,7 +225,7 @@ public class FragmentImport extends CallableFragment implements LoaderManager.Lo
 
     @Override
     public void correctCodeHandle(int taskType, String data) {
-        Log.i(LOG_TAG, "Correct code");
+        //Log.i(LOG_TAG, "Correct code");
         if(isDialogFinding){
             isDialogFinding = false;
             try {
@@ -346,8 +346,8 @@ public class FragmentImport extends CallableFragment implements LoaderManager.Lo
 
         String importObject = sb.toString();
 
-        Log.d(LOG_TAG, importObject);
-        Log.i(LOG_TAG, "test contacts");
+        //Log.d(LOG_TAG, importObject);
+        //Log.i(LOG_TAG, "test contacts");
 
         serviceHelper.executeCommand(TaskType.IMPORT, importObject, getActivity());
     }

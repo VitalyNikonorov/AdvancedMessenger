@@ -112,13 +112,13 @@ public class Provider extends ContentProvider {
             @Override
             public void onCreate(SQLiteDatabase db) {
                 db.execSQL(DB_CREATE_USERS);
-                Log.i(LOG_TAG, "users table created");
+                //Log.i(LOG_TAG, "users table created");
                 db.execSQL(DB_CREATE_CONTACTS);
-                Log.i(LOG_TAG, "planned list table created");
+                //Log.i(LOG_TAG, "planned list table created");
                 db.execSQL(DB_CREATE_DIALOGS);
-                Log.i(LOG_TAG, "read list table created");
+                //Log.i(LOG_TAG, "read list table created");
                 db.execSQL(DB_CREATE_IMPORT);
-                Log.i(LOG_TAG, "books table created");
+                //Log.i(LOG_TAG, "books table created");
             }
 
             @Override
@@ -138,7 +138,7 @@ public class Provider extends ContentProvider {
     @Nullable
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-        Log.i(LOG_TAG, "!query data " + uri.toString());
+        //Log.i(LOG_TAG, "!query data " + uri.toString());
 
         db = dbHelper.getWritableDatabase();
         String table = uri.getLastPathSegment();
@@ -163,7 +163,7 @@ public class Provider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        Log.d(LOG_TAG, "insert, " + uri.toString());
+        //Log.d(LOG_TAG, "insert, " + uri.toString());
 
         db = dbHelper.getWritableDatabase();
 

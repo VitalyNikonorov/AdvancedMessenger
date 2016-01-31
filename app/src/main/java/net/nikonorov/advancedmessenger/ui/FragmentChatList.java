@@ -135,7 +135,7 @@ public class FragmentChatList extends CallableFragment implements LoaderManager.
         sb.append("\"sid\": \"").append(User.getSid()).append("\"}} ");
 
         String reqObject = sb.toString();
-        Log.d(LOG_TAG, reqObject.toString());
+        //Log.d(LOG_TAG, reqObject.toString());
         serviceHelper.executeCommand(TaskType.CONTACTLIST, reqObject, getActivity());
     }
 

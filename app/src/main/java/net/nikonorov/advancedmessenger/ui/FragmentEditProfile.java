@@ -128,7 +128,7 @@ public class FragmentEditProfile extends CallableFragment implements LoaderManag
                 sb.append("\"picture\": \"").append(preparedProto).append("\"}} "); //preparedProto
 
                 String dataObject = sb.toString();
-                Log.d(LOG_TAG, dataObject);
+                //Log.d(LOG_TAG, dataObject);
                 serviceHelper.executeCommand(TaskType.SETUSERINFO, dataObject, getActivity());
 
                 getUserFromNet();
@@ -159,7 +159,7 @@ public class FragmentEditProfile extends CallableFragment implements LoaderManag
 
         if (requestCode == ActivityMain.REQUEST_CODE_PHOTO) {
             if (resultCode == getActivity().RESULT_OK) {
-                Log.d(LOG_TAG, "Photo uri: " + data.getData());
+                //Log.d(LOG_TAG, "Photo uri: " + data.getData());
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
 
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -238,7 +238,7 @@ public class FragmentEditProfile extends CallableFragment implements LoaderManag
                 phoneET.setText(jsonObject.getString("phone"));
                 statusET.setText(jsonObject.getString("user_status"));
 
-                Log.i(LOG_TAG, "upated");
+                //Log.i(LOG_TAG, "upated");
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -262,7 +262,7 @@ public class FragmentEditProfile extends CallableFragment implements LoaderManag
         sb.append("\"sid\": \"").append(User.getSid()).append("\"}} ");
 
         String reqObject = sb.toString();
-        Log.d(LOG_TAG, reqObject.toString());
+        //Log.d(LOG_TAG, reqObject.toString());
         serviceHelper.executeCommand(TaskType.USERINFO, reqObject, getActivity());
     }
 

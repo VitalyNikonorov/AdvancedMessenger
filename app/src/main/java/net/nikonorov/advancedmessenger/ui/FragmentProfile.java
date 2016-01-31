@@ -177,7 +177,7 @@ public class FragmentProfile extends CallableFragment implements LoaderManager.L
                 phoneTV.setText(jsonObject.getString("phone"));
                 statutTV.setText(jsonObject.getString("user_status"));
 
-                Log.i(LOG_TAG, "upated");
+                //Log.i(LOG_TAG, "upated");
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -203,7 +203,7 @@ public class FragmentProfile extends CallableFragment implements LoaderManager.L
         sb.append("\"sid\": \"").append(User.getSid()).append("\"}} ");
 
         String reqObject = sb.toString();
-        Log.d(LOG_TAG, reqObject.toString());
+        //Log.d(LOG_TAG, reqObject.toString());
         serviceHelper.executeCommand(TaskType.USERINFO, reqObject, getActivity());
     }
 

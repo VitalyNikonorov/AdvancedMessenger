@@ -151,7 +151,7 @@ public class FragmentChat extends CallableFragment implements LoaderManager.Load
                         .append("\"}}");
 
 
-                Log.d(LOG_TAG, reqObject);
+                //Log.d(LOG_TAG, reqObject);
 
                 serviceHelper.executeCommand(TaskType.MESSAGE, reqObject, getActivity());
 

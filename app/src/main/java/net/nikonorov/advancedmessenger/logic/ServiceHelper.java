@@ -50,7 +50,7 @@ public class ServiceHelper implements MasterServiceListener {
 
     @Override
     public void onRecieveMasterResponse(int taskType, String response, int code) {
-        Log.i(LOG_TAG, "Receive it: task" + (new Integer(taskType).toString()) + " error code: " + (new Integer(code).toString()) +" response: " +response);
+        //Log.i(LOG_TAG, "Receive it: task" + (new Integer(taskType).toString()) + " error code: " + (new Integer(code).toString()) +" response: " +response);
 
         Iterator it = listeners.iterator();
 

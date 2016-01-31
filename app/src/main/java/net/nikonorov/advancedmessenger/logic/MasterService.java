@@ -135,14 +135,14 @@ public class MasterService extends Service implements ReaderListener {
 
     private void sendMessage(Intent intent){
         try {
-            Log.d(LOG_TAG, "Try to send: ");
-            Log.d(LOG_TAG, intent.getStringExtra("data"));
+            //Log.d(LOG_TAG, "Try to send: ");
+            //Log.d(LOG_TAG, intent.getStringExtra("data"));
 
             String sdata = intent.getStringExtra("data");
 
             bout.write(sdata.getBytes());
             bout.flush();
-            Log.d(LOG_TAG, "gone");
+            //Log.d(LOG_TAG, "gone");
 
         } catch (IOException e) {
             e.printStackTrace();

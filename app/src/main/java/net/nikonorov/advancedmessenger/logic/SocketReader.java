@@ -77,7 +77,7 @@ public class SocketReader extends Thread{
 
                 if( bracketCount < 1 ){
                     sb.append(temp);
-                    Log.i(LOG_TAG, "I RECEIVE IT: " + sb.toString());
+                    //Log.i(LOG_TAG, "I RECEIVE IT: " + sb.toString());
 
                     sendIncomingData(sb.toString());
 
@@ -198,6 +198,6 @@ public class SocketReader extends Thread{
                 .parse("content://net.nikonorov.advancedmessenger.providers.db/"+table);
         Uri newUri = ((Context)readerListener).getContentResolver().insert(URI, cv);
 
-        Log.i(LOG_TAG, "insert, result Uri : " + newUri.toString());
+        //Log.i(LOG_TAG, "insert, result Uri : " + newUri.toString());
     }
 }
