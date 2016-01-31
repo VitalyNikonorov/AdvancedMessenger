@@ -19,6 +19,7 @@ import net.nikonorov.advancedmessenger.utils.TaskType;
 import net.nikonorov.advancedmessenger.utils.Utils;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by vitaly on 26.01.16.
@@ -46,13 +47,25 @@ public abstract class CallableFragment extends Fragment implements ServiceHelper
     }
 
     @Override
-    public void onServiceHelperCallback(int taskType, String data, int code) {
+    public void onServiceHelperCallback(int taskType, final String data, int code) {
         switch (code){
             case Code.OK:
                 correctCodeHandle(taskType, data);
                 break;
             case Code.TIMEOUT:
                 timeoutCodeHandle();
+                break;
+            default:
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Toast.makeText(getActivity(), new JSONObject(data).getJSONObject("data").getString("error"), Toast.LENGTH_SHORT).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
         }
     }
 
@@ -89,7 +102,5 @@ public abstract class CallableFragment extends Fragment implements ServiceHelper
                 dialog.show();
             }
         });
-
-        Toast.makeText(getActivity(), "Connection time out. Check network.", Toast.LENGTH_SHORT).show();
     }
 }
