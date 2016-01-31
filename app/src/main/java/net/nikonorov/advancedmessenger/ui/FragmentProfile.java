@@ -118,7 +118,6 @@ public class FragmentProfile extends CallableFragment implements LoaderManager.L
     @Override
     public void onPause() {
         super.onPause();
-        user = User.getLogin();
     }
 
     @Override

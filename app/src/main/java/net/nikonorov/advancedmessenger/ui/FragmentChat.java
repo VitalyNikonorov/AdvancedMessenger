@@ -371,9 +371,6 @@ public class FragmentChat extends CallableFragment implements LoaderManager.Load
 
     private void getUserFromNet(){
 
-        if(user == null){
-            user = User.getLogin();
-        }
 
         BufferClass.setAskedUser(user);
 
