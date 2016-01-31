@@ -4,18 +4,26 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
+    android:layout_margin="1dp"
     android:id="@+id/cv">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <ImageView
             android:padding="16dp"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_weight="1"
             android:src="@drawable/chat_mock"
             android:id="@+id/cv_iv"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="10">
 
         <TextView
             android:layout_width="wrap_content"
@@ -25,18 +33,19 @@
             android:textColor="@android:color/black"
             android:layout_gravity="center"
             android:padding="16dp"
-            android:text="message"
-            android:layout_toRightOf="@id/cv_iv"/>
+            android:text="message"/>
+        </RelativeLayout>
 
         <ImageView
             android:padding="16dp"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_weight="1"
             android:src="@drawable/chat_mock"
             android:layout_toRightOf="@id/cv_message"
             android:id="@+id/cv_msgphoto"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 
 

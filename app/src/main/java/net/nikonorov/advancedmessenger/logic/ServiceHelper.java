@@ -11,7 +11,9 @@ import net.nikonorov.advancedmessenger.ServiceHelperListener;
 import net.nikonorov.advancedmessenger.utils.Code;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -27,7 +29,8 @@ public class ServiceHelper implements MasterServiceListener {
         this.application = application;
     }
 
-    private ArrayList<ServiceHelperListener> listeners = new ArrayList<ServiceHelperListener>();
+
+    private List listeners =  Collections.synchronizedList(new ArrayList<ServiceHelperListener>());/// /new ArrayList<ServiceHelperListener>();
 
     private AtomicInteger idCounter = new AtomicInteger();
 

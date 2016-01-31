@@ -182,7 +182,7 @@ public class FragmentChat extends CallableFragment implements LoaderManager.Load
                         getActivity(),   // Parent activity context
                         Uri.parse("content://net.nikonorov.advancedmessenger.providers.db/dialogs"),        // Table to query
                         null,     // Projection to return
-                        "to_user = \'"+ User.getLogin()+"\'",            // selection clause
+                        "to_user = \'"+ User.getLogin()+"\' AND from_user = \'"+user+"\'",            // selection clause
                         null,            // No selection arguments
                         "time ASC"             // sort order
                 );

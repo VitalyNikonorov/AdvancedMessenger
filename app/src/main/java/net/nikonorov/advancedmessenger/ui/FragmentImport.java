@@ -23,8 +23,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.Toast;
 
 import net.nikonorov.advancedmessenger.R;
 import net.nikonorov.advancedmessenger.User;
@@ -40,15 +42,17 @@ import java.util.ArrayList;
 /**
  * Created by vitaly on 25.01.16.
  */
-public class FragmentContacts extends CallableFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class FragmentImport extends CallableFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    public FragmentContacts(){}
+    public FragmentImport(){}
 
     private ContactListAdapter adapter = null;
     private ArrayList<JSONObject> data = new ArrayList<>();
     private RecyclerView recyclerView  = null;
 
     private Button findUserBtn = null;
+
+    private boolean isDialogFinding = false;
 
     private static final int URL_LOADER = 2;
 
@@ -61,7 +65,7 @@ public class FragmentContacts extends CallableFragment implements LoaderManager.
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_contacts, null);
+        final View view = inflater.inflate(R.layout.fragment_contacts, null);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.contacts_list);
 
@@ -71,20 +75,26 @@ public class FragmentContacts extends CallableFragment implements LoaderManager.
             @Override
             public void onClick(View arg0) {
 
-                // custom dialog
                 final Dialog dialog = new Dialog(getActivity());
                 dialog.setContentView(R.layout.popup_find_user);
-                dialog.setTitle("Title...");
+                dialog.setTitle("Find user");
 
-//                // set the custom dialog components - text, image and button
-//                TextView text = (TextView) dialog.findViewById(R.id.text);
-//                text.setText("Android custom dialog example!");
-//                ImageView image = (ImageView) dialog.findViewById(R.id.image);
-//                image.setImageResource(R.drawable.ic_launcher);
+                final EditText email = (EditText) dialog.findViewById(R.id.find_user_email);
+                final EditText phone = (EditText) dialog.findViewById(R.id.find_user_phone);
 
-                Button dialogButton = (Button) dialog.findViewById(R.id.find_user_close);
-                // if button is clicked, close the custom dialog
-                dialogButton.setOnClickListener(new View.OnClickListener() {
+                Button findDialogButton = (Button) dialog.findViewById(R.id.find_user_find);
+                findDialogButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        isDialogFinding = true;
+                        String[] contacts = {"{\"myid\":\""+User.getCid()+"\", \"name\": \"name\", \"phone\":\""+phone.getText()+"\", \"email\":\""+email.getText()+"\"}"};
+                        getContactFromNet(contacts);
+                        dialog.dismiss();
+                    }
+                });
+
+                Button closeDialogDtn = (Button) dialog.findViewById(R.id.find_user_close);
+                closeDialogDtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         dialog.dismiss();
@@ -214,6 +224,29 @@ public class FragmentContacts extends CallableFragment implements LoaderManager.
     @Override
     public void correctCodeHandle(int taskType, String data) {
         Log.i(LOG_TAG, "Correct code");
+        if(isDialogFinding){
+            isDialogFinding = false;
+            try {
+                JSONObject responseData = new JSONObject(data).getJSONObject("data");
+                JSONArray contacts = responseData.getJSONArray("list");
+
+                if(contacts.length() == 0){
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity(), "User not found", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }else {
+                    String uid = contacts.getJSONObject(0).getString("uid");
+                    ((FragmentProfile)((ActivityMain)getActivity()).fragments[FragmentSet.MAINPROFILE]).setUser(uid);
+                    ((ActivityMain)getActivity()).changeFragment(FragmentSet.MAINPROFILE);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -244,7 +277,7 @@ public class FragmentContacts extends CallableFragment implements LoaderManager.
         long time = 0;
 
         if((cursor == null) || (cursor.getCount() == 0)){
-            getContactFromNet();
+            getContactFromNet(null);
         }else {
             if (cursor.moveToFirst()){
                 while(!cursor.isAfterLast()){
@@ -282,25 +315,27 @@ public class FragmentContacts extends CallableFragment implements LoaderManager.
         }
 
         if(time < (System.currentTimeMillis() - ONE_MINUTE_MILLIS)){
-            getContactFromNet();
+            getContactFromNet(null);
         }
 
     }
 
-    private void getContactFromNet(){
+    private void getContactFromNet(String[] contacts) {
 
         //String[] contacts = {"{\"myid\":\""+User.getCid()+"\", \"name\": \"bob\", \"phone\":\"555555\", \"email\":\"bob@bob\"}",
         //        "{\"myid\":\""+User.getCid()+"\", \"name\": \"bobby\", \"phone\":\"55555\", \"email\":\"bobby@bobby\"}"};
 
-        String[] contacts = fetchContacts();
+        if (contacts == null) {
+            contacts = fetchContacts();
+        }
 
         StringBuilder sb = new StringBuilder();
         sb.append("{\"action\":\"import\",\"data\": {")
                 .append("\"contacts\":[");
 
-        for (int i = 0; i < contacts.length; i++){
+        for (int i = 0; i < contacts.length; i++) {
             sb.append(contacts[i]);
-            if (i < contacts.length-1){
+            if (i < contacts.length - 1) {
                 sb.append(", ");
             }
         }

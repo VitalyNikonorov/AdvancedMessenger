@@ -35,7 +35,7 @@ public class FragmentViewPager extends CallableFragment {
         View view = inflater.inflate(R.layout.fragment_view_pager, null);
 
         fragments[FragmentSet.CHATLIST] = new FragmentChatList();
-        fragments[FragmentSet.CONTACTS] = new FragmentContacts();
+        fragments[FragmentSet.CONTACTS] = new FragmentImport();
         fragments[FragmentSet.MYPROFILE] = new FragmentMyProfile();
 
         viewPager = (ViewPager) view.findViewById(R.id.pager);
