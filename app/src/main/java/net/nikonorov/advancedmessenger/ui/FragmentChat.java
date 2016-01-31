@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -30,7 +31,9 @@ import android.widget.EditText;
 import net.nikonorov.advancedmessenger.R;
 import net.nikonorov.advancedmessenger.User;
 import net.nikonorov.advancedmessenger.ui.adapters.ChatAdapter;
+import net.nikonorov.advancedmessenger.utils.BufferClass;
 import net.nikonorov.advancedmessenger.utils.TaskType;
+import net.nikonorov.advancedmessenger.utils.Utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,6 +58,8 @@ public class FragmentChat extends CallableFragment implements LoaderManager.Load
     private final String LOG_TAG = "CHAT";
     private final static String DIALOGS_TABLE = "dialogs";
 
+    private final int ONE_MINUTE_MILLIS = 6000;
+
     private String preparedProto = "";
     private Button sendBtn = null;
     private Button putExtra = null;
@@ -64,6 +69,7 @@ public class FragmentChat extends CallableFragment implements LoaderManager.Load
     private ChatAdapter adapter = null;
 
     private static final int URL_LOADER = 4;
+    private static final int PROFILE_LOADER = 5;
 
     @Nullable
     @Override
@@ -92,16 +98,16 @@ public class FragmentChat extends CallableFragment implements LoaderManager.Load
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         ActivityCompat.requestPermissions(getActivity(),
-                                                new String[] {Manifest.permission.CAMERA},
+                                                new String[]{Manifest.permission.CAMERA},
                                                 ActivityMain.REQUEST_CODE_PHOTO);
                                     }
                                 });
-                        return ;
+                        return;
                     }
                     ActivityCompat.requestPermissions(getActivity(),
-                            new String[] {Manifest.permission.CAMERA},
+                            new String[]{Manifest.permission.CAMERA},
                             ActivityMain.REQUEST_CODE_PHOTO);
-                    return ;
+                    return;
                 }
                 takePhoto();
             }
@@ -165,6 +171,7 @@ public class FragmentChat extends CallableFragment implements LoaderManager.Load
         chatList.setAdapter(adapter);
 
         getLoaderManager().initLoader(URL_LOADER, null, this);
+        getLoaderManager().initLoader(PROFILE_LOADER, null, this);
 
         return view;
     }
@@ -187,6 +194,17 @@ public class FragmentChat extends CallableFragment implements LoaderManager.Load
                         null,            // No selection arguments
                         "time ASC"             // sort order
                 );
+
+            case PROFILE_LOADER:
+                // Returns a new CursorLoader
+                return new CursorLoader(
+                        getActivity(),   // Parent activity context
+                        Uri.parse("content://net.nikonorov.advancedmessenger.providers.db/users"),        // Table to query
+                        null,     // Projection to return
+                        "login = \'" + user + "\'",            // selection clause
+                        null,            // No selection arguments
+                        null             // Default sort order
+                );
             default:
                 // An invalid id was passed in
                 return null;
@@ -195,47 +213,91 @@ public class FragmentChat extends CallableFragment implements LoaderManager.Load
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        ArrayList<JSONObject> loadData = new ArrayList<JSONObject>();
+        int id = loader.getId();
+        switch (id){
+            case URL_LOADER:{
+                ArrayList<JSONObject> loadData = new ArrayList<JSONObject>();
 
-        if (cursor.moveToFirst()){
-            while(!cursor.isAfterLast()){
-                try {
-                    loadData.add(new JSONObject(cursor.getString(cursor.getColumnIndex("data"))));
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                if (cursor.moveToFirst()){
+                    while(!cursor.isAfterLast()){
+                        try {
+                            loadData.add(new JSONObject(cursor.getString(cursor.getColumnIndex("data"))));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        cursor.moveToNext();
+                    }
                 }
-                cursor.moveToNext();
+
+
+                data.clear();
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+
+
+                for(int i = 0; i < loadData.size(); i++){
+                    data.add(loadData.get(i));
+                }
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+
+                chatList.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        chatList.smoothScrollToPosition(adapter.getItemCount());
+                    }
+                });
+
+                break;
+            }
+
+            case (PROFILE_LOADER):{
+                String userData = "";
+                long time = 0;
+
+                if(cursor == null){
+                    getUserFromNet();
+                }else {
+                    if (cursor.moveToFirst()){
+                        while(!cursor.isAfterLast()){
+                            userData = cursor.getString(cursor.getColumnIndex("data"));
+                            time = Long.valueOf(cursor.getString(cursor.getColumnIndex("time")));
+                            cursor.moveToNext();
+                        }
+                    }
+
+                    try {
+                        JSONObject jsonObject = new JSONObject(userData);
+
+                        userAva = jsonObject.getString("picture");
+
+                        if(jsonObject.has("nick")) {
+                            ((ActivityMain)getActivity()).getSupportActionBar().setTitle(jsonObject.getString("nick"));
+                        }
+
+                        Log.i(LOG_TAG, "upated");
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                if(time < (System.currentTimeMillis() - ONE_MINUTE_MILLIS)){
+                    getUserFromNet();
+                }
+                break;
             }
         }
-
-
-        data.clear();
-
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                adapter.notifyDataSetChanged();
-            }
-        });
-
-
-        for(int i = 0; i < loadData.size(); i++){
-            data.add(loadData.get(i));
-        }
-
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                adapter.notifyDataSetChanged();
-            }
-        });
-
-        chatList.post(new Runnable() {
-            @Override
-            public void run() {
-                chatList.smoothScrollToPosition(adapter.getItemCount());
-            }
-        });
 
     }
 
@@ -307,4 +369,29 @@ public class FragmentChat extends CallableFragment implements LoaderManager.Load
         }
     }
 
+    private void getUserFromNet(){
+
+        if(user == null){
+            user = User.getLogin();
+        }
+
+        BufferClass.setAskedUser(user);
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("{\"action\":\"userinfo\", \"data\":{\"cid\":\"");
+        sb.append(User.getCid()).append("\", ");
+        sb.append("\"user\": \"").append(user).append("\", ");
+        sb.append("\"sid\": \"").append(User.getSid()).append("\"}} ");
+
+        String reqObject = sb.toString();
+        Log.d(LOG_TAG, reqObject.toString());
+        serviceHelper.executeCommand(TaskType.USERINFO, reqObject, getActivity());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        ((ActivityMain)getActivity()).getSupportActionBar().setTitle(R.string.app_name);
+    }
 }

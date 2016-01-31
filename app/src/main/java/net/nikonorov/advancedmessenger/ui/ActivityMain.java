@@ -34,7 +34,7 @@ public class ActivityMain extends AppCompatActivity {
 
         String uid = intent.getStringExtra("uid");
         if(uid != null){
-            ((FragmentProfile)fragments[FragmentSet.MAINPROFILE]).setUser(uid);
+            ((FragmentChat)fragments[FragmentSet.MAINCHAT]).setUser(uid);
             transaction.add(R.id.fragment_main_place, fragments[FragmentSet.MAINCHAT]);
         }else {
             transaction.add(R.id.fragment_main_place, fragments[FragmentSet.MAINVIEWPAGER]);

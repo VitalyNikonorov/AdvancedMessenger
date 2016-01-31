@@ -13,7 +13,7 @@
             android:layout_height="64dp"
             android:layout_width="64dp"
             android:layout_weight="1"
-            android:src="@drawable/chat_mock"
+            android:src="@drawable/icon_person"
             android:layout_margin="8dp"
             />
 
