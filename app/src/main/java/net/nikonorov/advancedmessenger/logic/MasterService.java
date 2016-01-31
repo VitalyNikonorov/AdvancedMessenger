@@ -16,6 +16,7 @@ import net.nikonorov.advancedmessenger.MasterServiceListener;
 import net.nikonorov.advancedmessenger.R;
 import net.nikonorov.advancedmessenger.ReaderListener;
 import net.nikonorov.advancedmessenger.ui.ActivityMain;
+import net.nikonorov.advancedmessenger.utils.Code;
 import net.nikonorov.advancedmessenger.utils.TaskType;
 
 import org.json.JSONException;
@@ -145,6 +146,7 @@ public class MasterService extends Service implements ReaderListener {
 
         } catch (IOException e) {
             e.printStackTrace();
+            listener.onRecieveMasterResponse(TaskType.CONNECT, null, Code.TIMEOUT);
             onCreate();
         }
     }

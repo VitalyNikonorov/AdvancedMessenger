@@ -1,14 +1,24 @@
 package net.nikonorov.advancedmessenger.ui;
 
+import android.app.Dialog;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import net.nikonorov.advancedmessenger.App;
+import net.nikonorov.advancedmessenger.R;
 import net.nikonorov.advancedmessenger.ServiceHelperListener;
+import net.nikonorov.advancedmessenger.logic.MasterService;
 import net.nikonorov.advancedmessenger.logic.ServiceHelper;
 import net.nikonorov.advancedmessenger.utils.Code;
 import net.nikonorov.advancedmessenger.utils.TaskType;
+import net.nikonorov.advancedmessenger.utils.Utils;
+
+import org.json.JSONException;
 
 /**
  * Created by vitaly on 26.01.16.
@@ -49,6 +59,37 @@ public abstract class CallableFragment extends Fragment implements ServiceHelper
     public abstract void correctCodeHandle(int taskType, String data);
 
     private void timeoutCodeHandle(){
+
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                final Dialog dialog = new Dialog(getActivity());
+                dialog.setContentView(R.layout.popup_reconnect);
+                dialog.setTitle("Attached file");
+
+                Button btnDismiss = (Button) dialog.findViewById(R.id.reconnect_close);
+                btnDismiss.setOnClickListener(new Button.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                Button reconnect = (Button) dialog.findViewById(R.id.reconnect_reconnect);
+                reconnect.setOnClickListener(new Button.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        getActivity().startService(new Intent(getActivity(), MasterService.class).putExtra("type", TaskType.CONNECT).putExtra("data", ""));
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
+            }
+        });
+
         Toast.makeText(getActivity(), "Connection time out. Check network.", Toast.LENGTH_SHORT).show();
     }
 }
