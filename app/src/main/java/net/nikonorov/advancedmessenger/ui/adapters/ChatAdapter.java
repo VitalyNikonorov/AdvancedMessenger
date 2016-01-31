@@ -1,10 +1,13 @@
 package net.nikonorov.advancedmessenger.ui.adapters;
 
+import android.app.Dialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -14,6 +17,7 @@ import net.nikonorov.advancedmessenger.User;
 import net.nikonorov.advancedmessenger.ui.ActivityMain;
 import net.nikonorov.advancedmessenger.ui.FragmentChat;
 import net.nikonorov.advancedmessenger.ui.FragmentSet;
+import net.nikonorov.advancedmessenger.utils.TaskType;
 import net.nikonorov.advancedmessenger.utils.Utils;
 
 import org.json.JSONException;
@@ -42,7 +46,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.CardViewHolder
     }
 
     @Override
-    public void onBindViewHolder(CardViewHolder holder, int position) {
+    public void onBindViewHolder(CardViewHolder holder, final int position) {
 
         StringBuilder sb = new StringBuilder();
         try {
@@ -69,12 +73,41 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.CardViewHolder
                     && !(messages.get(position).getJSONObject("attach").getString("data").equals(""))
                     && ((messages.get(position).getJSONObject("attach").getString("mime").contains("image")))){
 
-                ImageView attachedImg = new ImageView(activityMain);
+                final ImageView attachedImg = new ImageView(activityMain);
                 Utils.setPhoto(messages.get(position).getJSONObject("attach").getString("data"), attachedImg);
 
                 RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 params.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
                 params.addRule(RelativeLayout.BELOW, R.id.cv_message);
+
+                attachedImg.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View arg0) {
+                        final Dialog dialog = new Dialog(activityMain);
+                        dialog.setContentView(R.layout.popup_attached_view);
+                        dialog.setTitle("Attached file");
+
+                        Button btnDismiss = (Button) dialog.findViewById(R.id.attached_view_close);
+                        btnDismiss.setOnClickListener(new Button.OnClickListener() {
+
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        ImageView attachedImage = (ImageView) dialog.findViewById(R.id.attached_img_view);
+                        try {
+                            Utils.setPhoto(messages.get(position).getJSONObject("attach").getString("data"), attachedImage);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        dialog.show();
+                    }
+                });
+
                 holder.msgLayout.addView(attachedImg, params);
             }
 
