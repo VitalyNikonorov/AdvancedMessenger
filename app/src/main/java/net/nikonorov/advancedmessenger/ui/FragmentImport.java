@@ -24,6 +24,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Toast;
@@ -50,7 +52,7 @@ public class FragmentImport extends CallableFragment implements LoaderManager.Lo
     private ArrayList<JSONObject> data = new ArrayList<>();
     private RecyclerView recyclerView  = null;
 
-    private Button findUserBtn = null;
+    private ImageButton findUserBtn = null;
 
     private boolean isDialogFinding = false;
 
@@ -69,7 +71,7 @@ public class FragmentImport extends CallableFragment implements LoaderManager.Lo
 
         recyclerView = (RecyclerView) view.findViewById(R.id.contacts_list);
 
-        findUserBtn = (Button) view.findViewById(R.id.find_users_btn);
+        findUserBtn = (ImageButton) view.findViewById(R.id.find_users_btn);
 
         findUserBtn.setOnClickListener(new View.OnClickListener() {
             @Override

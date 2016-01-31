@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import net.nikonorov.advancedmessenger.R;
 import net.nikonorov.advancedmessenger.User;
@@ -36,7 +37,7 @@ public class FragmentChatList extends CallableFragment implements LoaderManager.
     private ContactListAdapter adapter = null;
     private ArrayList<JSONObject> data = new ArrayList<>();
     private RecyclerView recyclerView  = null;
-    private Button addUserBtn = null;
+    private ImageButton addUserBtn = null;
 
     private static final int URL_LOADER = 0;
 
@@ -60,7 +61,7 @@ public class FragmentChatList extends CallableFragment implements LoaderManager.
 
         getLoaderManager().initLoader(URL_LOADER, null, this);
 
-        addUserBtn = (Button) view.findViewById(R.id.add_users_btn);
+        addUserBtn = (ImageButton) view.findViewById(R.id.add_users_btn);
 
         addUserBtn.setOnClickListener(new View.OnClickListener() {
 

@@ -70,6 +70,7 @@ public class FragmentChat extends CallableFragment implements LoaderManager.Load
 
     private static final int URL_LOADER = 4;
     private static final int PROFILE_LOADER = 5;
+    private static final int MY_PROFILE_LOADER = 6;
 
     @Nullable
     @Override
@@ -172,6 +173,7 @@ public class FragmentChat extends CallableFragment implements LoaderManager.Load
 
         getLoaderManager().initLoader(URL_LOADER, null, this);
         getLoaderManager().initLoader(PROFILE_LOADER, null, this);
+        getLoaderManager().initLoader(MY_PROFILE_LOADER, null, this);
 
         return view;
     }
@@ -202,6 +204,17 @@ public class FragmentChat extends CallableFragment implements LoaderManager.Load
                         Uri.parse("content://net.nikonorov.advancedmessenger.providers.db/users"),        // Table to query
                         null,     // Projection to return
                         "login = \'" + user + "\'",            // selection clause
+                        null,            // No selection arguments
+                        null             // Default sort order
+                );
+
+            case MY_PROFILE_LOADER:
+                // Returns a new CursorLoader
+                return new CursorLoader(
+                        getActivity(),   // Parent activity context
+                        Uri.parse("content://net.nikonorov.advancedmessenger.providers.db/users"),        // Table to query
+                        null,     // Projection to return
+                        "login = \'" + User.getLogin() + "\'",            // selection clause
                         null,            // No selection arguments
                         null             // Default sort order
                 );
@@ -266,7 +279,7 @@ public class FragmentChat extends CallableFragment implements LoaderManager.Load
                 long time = 0;
 
                 if(cursor == null){
-                    getUserFromNet();
+                    getUserFromNet(user);
                 }else {
                     if (cursor.moveToFirst()){
                         while(!cursor.isAfterLast()){
@@ -293,7 +306,36 @@ public class FragmentChat extends CallableFragment implements LoaderManager.Load
                 }
 
                 if(time < (System.currentTimeMillis() - ONE_MINUTE_MILLIS)){
-                    getUserFromNet();
+                    getUserFromNet(user);
+                }
+                break;
+            }
+            case (MY_PROFILE_LOADER):{
+                String userData = "";
+                long time = 0;
+
+                if(cursor == null){
+                    getUserFromNet(User.getLogin());
+                }else {
+                    if (cursor.moveToFirst()){
+                        while(!cursor.isAfterLast()){
+                            userData = cursor.getString(cursor.getColumnIndex("data"));
+                            time = Long.valueOf(cursor.getString(cursor.getColumnIndex("time")));
+                            cursor.moveToNext();
+                        }
+                    }
+
+                    try {
+                        JSONObject jsonObject = new JSONObject(userData);
+
+                        User.setPicture(jsonObject.getString("picture"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                if(time < (System.currentTimeMillis() - ONE_MINUTE_MILLIS)){
+                    getUserFromNet(User.getLogin());
                 }
                 break;
             }
@@ -369,7 +411,7 @@ public class FragmentChat extends CallableFragment implements LoaderManager.Load
         }
     }
 
-    private void getUserFromNet(){
+    private void getUserFromNet(String reqUser){
 
 
         BufferClass.setAskedUser(user);
@@ -378,7 +420,7 @@ public class FragmentChat extends CallableFragment implements LoaderManager.Load
 
         sb.append("{\"action\":\"userinfo\", \"data\":{\"cid\":\"");
         sb.append(User.getCid()).append("\", ");
-        sb.append("\"user\": \"").append(user).append("\", ");
+        sb.append("\"user\": \"").append(reqUser).append("\", ");
         sb.append("\"sid\": \"").append(User.getSid()).append("\"}} ");
 
         String reqObject = sb.toString();
